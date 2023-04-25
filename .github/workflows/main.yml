@@ -14,7 +14,9 @@ jobs:
           ref: main
           
       - name: Install dependencies
-        run: npm install # replace with your build script command
+        run: npm ci # replace with your build script command
+      - name: build
+        run: npm run package # replace with your build script command
 
       - name: Build and push
         run: |
