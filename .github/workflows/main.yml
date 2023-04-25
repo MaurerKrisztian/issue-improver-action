@@ -9,14 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: main
           
       - name: Install dependencies
         run: npm ci # replace with your build script command
       - name: build
-        run: npm run package # replace with your build script command
+        run: npm run package
 
       - name: Build and push
         run: |
@@ -25,4 +25,4 @@ jobs:
           git checkout -b latest
           git add .
           git commit -m "build"
-          git push -u origin latest
+          git push -u origin latest --force
