@@ -5,8 +5,9 @@ async function run() {
     try {
         const apiKey = core.getInput('api-key');
         const template = core.getInput('template');
+        const githubToken = core.getInput('github-token');
 
-        const octokit = await github.getOctokit(core.getInput('github-token'));
+        const octokit = await github.getOctokit(core.getInput(githubToken));
         const context = github.context;
         if (context.payload.action !== 'opened') {
             console.log('This action only runs when an issue is opened');
