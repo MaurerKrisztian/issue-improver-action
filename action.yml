@@ -11,5 +11,5 @@ inputs:
     description: 'GitHub token with the `repo` scope'
     required: true
 runs:
-  using: 'node12'
+  using: 'node16'
   main: './dist/index.js'

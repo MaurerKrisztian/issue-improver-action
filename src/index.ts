@@ -9,9 +9,9 @@ async function run() {
         const githubToken = core.getInput('github-token');
 
 
-        core.debug(githubToken == undefined ? "github token is undefined": "github token is provided");
+        console.debug(githubToken == undefined ? "github token is undefined": "github token is provided");
 
-        core.debug("getOctokit with the github token..")
+        console.debug("getOctokit with the github token..")
         const octokit = await github.getOctokit(githubToken);
         const context = github.context;
         // if (context.payload.action !== 'opened') {

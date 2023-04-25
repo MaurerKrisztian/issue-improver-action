@@ -16673,8 +16673,8 @@ function run() {
             const apiKey = core.getInput('api-key');
             const template = core.getInput('template');
             const githubToken = core.getInput('github-token');
-            core.debug(githubToken == undefined ? "github token is undefined" : "github token is provided");
-            core.debug("getOctokit with the github token..");
+            console.debug(githubToken == undefined ? "github token is undefined" : "github token is provided");
+            console.debug("getOctokit with the github token..");
             const octokit = yield github.getOctokit(githubToken);
             const context = github.context;
             // if (context.payload.action !== 'opened') {
