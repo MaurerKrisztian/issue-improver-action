@@ -3,16 +3,21 @@ import * as github from '@actions/github';
 import {reflectToIssueWithGPT} from "./openapi-service";
 async function run() {
     try {
+        core.debug("Action is started..")
         const apiKey = core.getInput('api-key');
         const template = core.getInput('template');
         const githubToken = core.getInput('github-token');
 
-        const octokit = await github.getOctokit(core.getInput(githubToken));
+
+        core.debug(githubToken == undefined ? "github token is undefined": "github token is provided");
+
+        core.debug("getOctokit with the github token..")
+        const octokit = await github.getOctokit(githubToken);
         const context = github.context;
-        if (context.payload.action !== 'opened') {
-            console.log('This action only runs when an issue is opened');
-            return;
-        }
+        // if (context.payload.action !== 'opened') {
+        //     console.log('This action only runs when an issue is opened');
+        //     return;
+        // }
         const issue = context.payload.issue;
 
         const gptMessage = await reflectToIssueWithGPT(apiKey, {issueBody: issue?.body || "", issueTitle: issue?.html_url || ""}, template) || "no comment"
