@@ -1,0 +1,26 @@
+name: Package and Push to latest branch
+on:
+  push:
+    branches:
+      - main # Trigger the workflow only when changes are pushed to the main branch
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          
+      - name: Install dependencies
+        run: npm install # replace with your build script command
+
+      - name: Build and push
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git checkout -b latest
+          git add .
+          git commit -m "build"
+          git push -u origin latest
