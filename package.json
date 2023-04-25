@@ -2,10 +2,11 @@
   "name": "issue-improver-action",
   "version": "1.0.0",
   "description": "GitHub Action that automates issue improvement suggestions using OpenAI GPT.",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"No tests yet\""
+    "test": "echo \"No tests yet\"",
+    "package": "ncc build --source-map --license licenses.txt"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "openai": "^3.2.1"
   },
   "devDependencies": {
+    "@vercel/ncc": "^0.36.1",
     "@types/node": "^18.16.0",
     "typescript": "^5.0.4"
   }
