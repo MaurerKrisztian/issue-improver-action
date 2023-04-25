@@ -1,0 +1,15 @@
+name: 'Clarify and Improve Issues with OpenAI GPT'
+description: 'Uses the OpenAI GPT API to clarify new issues and provide suggestions for improvement.'
+inputs:
+  api-key:
+    description: 'OpenAI API key'
+    required: true
+  template:
+    description: 'Prompt to use when requesting suggestions from the API. You can use {{issueBody}}, {{issueTitle}} placeholders.'
+    required: true
+  github-token:
+    description: 'GitHub token with the `repo` scope'
+    required: true
+runs:
+  using: 'node12'
+  main: './dist/index.js'
