@@ -19,20 +19,8 @@ jobs:
         run: npm run package
       - name: Configure git
         run: |
-          git config --global user.name "Github bot"
-          git config --global user.email "email@mail.com"
-          rm .gitignore
-          npm run package
+          git checkout -b latest
           git add -A
-
-      - name: Create latest branch
-        run: git branch -f latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push changes to latest branch
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: latest
-          force: true
+          git commit -a -m "build"
+          git push -u origin latest
+          git push -u origin latest --force
