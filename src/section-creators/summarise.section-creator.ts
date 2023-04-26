@@ -6,6 +6,7 @@ import { PaginateInterface } from '@octokit/plugin-paginate-rest';
 import { context } from '@actions/github';
 import { ISection } from '../services/comment-builder';
 import { ISectionCreator } from './section-creator.interface';
+import * as core from '@actions/core';
 
 export class SummariseSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs) {
@@ -21,6 +22,7 @@ export class SummariseSectionCreator implements ISectionCreator {
     ): Promise<ISection> {
         const issue = context.payload.issue;
 
+        core.notice(`[Ask GPT]: ${`Summarize this github issue: ${issue.title} ${issue.body}`}`);
         const message = (
             await openaiClient.createCompletion({
                 model: inputs.model,
@@ -28,6 +30,7 @@ export class SummariseSectionCreator implements ISectionCreator {
                 max_tokens: inputs.maxTokens,
             })
         ).data.choices[0].text;
+        core.notice(`[Response GPT]: ${message}`);
         return {
             title: '[GPT Summarization]',
             description: message,

@@ -36,6 +36,7 @@ async function run() {
     const octokit = await github.getOctokit(inputs.githubToken);
     const context = github.context;
     const issue = context.payload.issue;
+    core.notice(`Max token / section: ${inputs.maxTokens}`);
     core.notice(JSON.stringify(issue));
 
     const commentBuilder = new CommentBuilder();
@@ -44,6 +45,7 @@ async function run() {
             commentBuilder.addSection(await sectionCreator.createSection(inputs, openaiClient, octokit));
         }
     }
+
     const createComment = async (message: string) => {
         await octokit.rest.issues.createComment({
             owner: context.repo.owner,

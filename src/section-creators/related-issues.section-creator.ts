@@ -7,6 +7,7 @@ import { context } from '@actions/github';
 import { Utils } from '../utils';
 import { ISectionCreator } from './section-creator.interface';
 import { ISection } from '../services/comment-builder';
+import * as core from "@actions/core";
 
 export class RelatedIssuesSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs) {
@@ -45,12 +46,14 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
             },
         );
 
+        core.notice(`[ASK GPT]: ${resolvedTemple}`);
         const relatedIssuesResponse = await openaiClient.createCompletion({
             model: inputs.model,
             prompt: resolvedTemple,
             max_tokens: inputs.maxTokens,
         });
         const message = relatedIssuesResponse.data.choices[0].text;
+        core.notice(`[Response GPT]: ${message}`);
         return {
             title: '[GPT Related issues]',
             description: message,
