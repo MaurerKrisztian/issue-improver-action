@@ -6,9 +6,18 @@
 
 GitHub Action that automates issue improvement suggestions using OpenAI.
 
+## Inputs:
+-  api-key: OpenAi api key
+- template: The resolved tamplate will be sent to GPT. 
+You can use placeholders related to the issue: {{author}}, {{issueTitle}}, {{issueBody}}
+- model: OpenAi model (optional)
 
-Action example:
+## How does It work?
 
+
+Whenever an issue is created, this action can be triggered to gather the relevant issue data, use it to resolve the template variable, and submit it to a GPT model. The resulting response will then be added as a comment to the issue.
+
+## Action example:
 
 
 ```yml
@@ -32,6 +41,6 @@ jobs:
         uses: MaurerKrisztian/issue-improver-action@latest
         with:
           api-key: ${{ secrets.GPT_KEY }}
-          template: "{{author}} created and issue in github, please sumarize it at [sumarize] section and give suggesion how can improve the issue text at [suggesion].. Apply it for this github issue:  {{issueTitle}} {{issueBody}}"
+          template: "{{author}} created an issue in github, please sumarize it at [sumarize] section and give suggesion how can improve the issue text at [suggesion] section. Apply it for this github issue:  {{issueTitle}} {{issueBody}}"
 
 ```
