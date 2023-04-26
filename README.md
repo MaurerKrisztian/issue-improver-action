@@ -13,8 +13,6 @@ Action example:
 
 ```yml
 
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
 on:
@@ -25,7 +23,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  # This workflow contains a single job called "build"
   gpt-comment:
     runs-on: ubuntu-latest
     steps:
