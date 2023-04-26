@@ -25,6 +25,6 @@ jobs:
           git checkout -b latest
           npm ci
           npm run package
-          git add .
+          git add -A
           git commit -m "Update latest branch"
           git push origin latest --force
