@@ -8,7 +8,7 @@ async function run() {
         const template = core.getInput('template');
         const githubToken = core.getInput('github-token');
 
-        console.debug(githubToken == undefined ? 'github token is undefined' : 'github token is provided');
+        core.notice(githubToken == undefined ? 'github token is undefined' : 'github token is provided');
 
         console.debug('getOctokit with the github token..');
         const octokit = await github.getOctokit(githubToken);
@@ -19,10 +19,13 @@ async function run() {
         // }
         const issue = context.payload.issue;
 
+        core.notice(JSON.stringify(context.payload));
+        core.notice(JSON.stringify(issue));
+
         const gptMessage =
             (await reflectToIssueWithGPT(
                 apiKey,
-                { issueBody: issue?.body || '', issueTitle: issue?.html_url || '' },
+                { issueBody: issue?.body || '', issueTitle: issue?.title || '' },
                 template,
             )) || 'no comment';
 
@@ -36,7 +39,7 @@ async function run() {
             body: gptMessage,
         });
 
-        console.log('Comment created successfully');
+        core.notice('Comment created successfully');
     } catch (error: any) {
         core.setFailed(error?.message);
     }
