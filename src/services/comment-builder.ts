@@ -1,15 +1,19 @@
 import * as core from '@actions/core';
-
+export interface ISection {
+    title: string;
+    description: string;
+}
 export class CommentBuilder {
     private message: string;
 
-    addSection(title: string, content: string) {
-        core.notice(`${title}:  ${content}`);
+    addSection(options: ISection) {
+        core.notice(`Add section: `);
+        core.notice(`${options.title}:  ${options.description}`);
         this.message = `
 ${this.message} 
 
-### ${title}
-${content}
+### ${options.title}
+${options.description}
 `;
     }
 

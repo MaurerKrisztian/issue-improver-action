@@ -1,71 +1,49 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { ActionRunner } from './services/action-runner';
-import { Utils } from './utils';
 import { Configuration, OpenAIApi } from 'openai';
 import { CommentBuilder } from './services/comment-builder';
+import { CustomSectionCreator } from './section-creators/custom.section-creator';
+import { RelatedIssuesSectionCreator } from './section-creators/related-issues.section-creator';
+import { SummariseSectionCreator } from './section-creators/summarise.section-creator';
 
+export interface IInputs {
+    apiKey: string;
+    template: string;
+    githubToken: string;
+    model: string;
+    findRelatedIssues: boolean;
+    maxTokens: number;
+}
+
+const sectionCreators = [new CustomSectionCreator(), new RelatedIssuesSectionCreator(), new SummariseSectionCreator()];
 async function run() {
-    const apiKey = core.getInput('api-key');
-    const template = core.getInput('template');
-    const githubToken = core.getInput('github-token');
-    const model = core.getInput('model', { required: false }) || 'text-davinci-003';
-    const findRelatedIssues = core.getInput('find-related-issues');
-    const maxTokens = Number.parseInt(core.getInput('max_tokens', { required: false })) || 150;
-
-    const commentBuilder = new CommentBuilder();
+    const inputs: IInputs = {
+        apiKey: core.getInput('api-key'),
+        findRelatedIssues: core.getInput('find-related-issues') == 'true',
+        githubToken: core.getInput('github-token'),
+        maxTokens: Number.parseInt(core.getInput('github-token')),
+        model: core.getInput('model', { required: false }),
+        template: core.getInput('template'),
+    };
 
     const openaiClient = new OpenAIApi(
         new Configuration({
-            apiKey: apiKey,
+            apiKey: inputs.apiKey,
         }),
     );
 
-    const octokit = await github.getOctokit(githubToken);
+    const octokit = await github.getOctokit(inputs.githubToken);
     const context = github.context;
     const issue = context.payload.issue;
-
     core.notice(JSON.stringify(issue));
 
-    const getIssueReflectionMessage = async () => {
-        const resolvedTemple = Utils.resolveTemplate(template, {
-            issueBody: issue?.body || '',
-            issueTitle: issue?.title || '',
-            author: issue.user.login || '',
-        });
-
-        return (
-            await openaiClient.createCompletion({
-                model: model,
-                prompt: resolvedTemple,
-                max_tokens: maxTokens,
-            })
-        ).data.choices[0].text;
-    };
-
-    const getRelatedIssues = async () => {
-        const issuesResponse = await octokit.rest.issues.listForRepo({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            state: 'open',
-        });
-
-        const issues = issuesResponse.data.map((issue) => ({
-            number: issue.number,
-            title: issue.title,
-            link: issue.html_url,
-        }));
-
-        const relatedIssuesResponse = await openaiClient.createCompletion({
-            model: model,
-            prompt: `Find related issues to: " {{issueTitle}} "  from thies issues: ${JSON.stringify(
-                issues,
-            )}. Make a list of issue title what is may related in this format [title](link)`,
-            max_tokens: maxTokens,
-        });
-        return relatedIssuesResponse.data.choices[0].text;
-    };
-
+    const commentBuilder = new CommentBuilder();
+    for (const sectionCreator of sectionCreators) {
+        if (sectionCreator.isAddSection(inputs)) {
+            commentBuilder.addSection(await sectionCreator.createSection(inputs, openaiClient, octokit));
+        }
+    }
     const createComment = async (message: string) => {
         await octokit.rest.issues.createComment({
             owner: context.repo.owner,
@@ -74,12 +52,6 @@ async function run() {
             body: message,
         });
     };
-
-    commentBuilder.addSection('[GPT Reflection]', await getIssueReflectionMessage());
-
-    if (findRelatedIssues) {
-        commentBuilder.addSection('[Potentially Related Issues]', await getRelatedIssues());
-    }
 
     core.notice(`Try to create a comment...`);
     await createComment(commentBuilder.getMessage());
