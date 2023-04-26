@@ -25,5 +25,4 @@ jobs:
           git checkout -b latest
           git add -A
           git commit -a -m "build"
-          git push -u origin latest
           git push -u origin latest --force
