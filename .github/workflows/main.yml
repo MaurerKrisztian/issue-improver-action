@@ -17,13 +17,10 @@ jobs:
         run: npm ci # replace with your build script command
       - name: build
         run: npm run package
-
-      - name: Build and push
+      - name: push to latest branch
         run: |
-          git checkout main
-          git pull origin main
-          git branch -D latest
+          git branch -D latest || true
           git checkout -b latest
           git add .
-          git commit -m "build"
-          git push -u origin latest --force
+          git commit -m "Update latest branch"
+          git push origin latest
