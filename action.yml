@@ -4,6 +4,9 @@ inputs:
   api-key:
     description: 'OpenAI API key'
     required: true
+  model:
+    description: 'OpenAI API key'
+    default: 'text-davinci-003'
   template:
     description: 'Prompt to use when requesting suggestions from the API. You can use {{issueBody}}, {{issueTitle}} placeholders.'
     required: true

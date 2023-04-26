@@ -8,6 +8,7 @@ async function run() {
     const apiKey = core.getInput('api-key');
     const template = core.getInput('template');
     const githubToken = core.getInput('github-token');
+    const model = core.getInput('model') || 'text-davinci-003';
 
     const octokit = await github.getOctokit(githubToken);
     const context = github.context;
@@ -27,14 +28,15 @@ async function run() {
     });
     const openaiClient = new OpenAIApi(configuration);
     const completion = await openaiClient.createCompletion({
-        model: 'text-davinci-003',
+        model: model,
         prompt: resolvedTemple,
         max_tokens: 150,
     });
     const gptMessage = completion.data.choices[0].text;
 
-    core.notice(`[GPT MESSAGE]: ${resolvedTemple}`);
+    core.notice(`[GPT MESSAGE]: ${gptMessage}`);
 
+    core.notice(`Try to create a comment...`);
     await octokit.rest.issues.createComment({
         owner: context.repo.owner,
         repo: context.repo.repo,
