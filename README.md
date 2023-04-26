@@ -8,9 +8,10 @@ GitHub Action that automates issue improvement suggestions using OpenAI.
 
 ## Inputs:
 -  api-key: OpenAi api key
-- template: The resolved tamplate will be sent to GPT. 
+- template: The resolved template will be sent to GPT. 
 You can use placeholders related to the issue: {{author}}, {{issueTitle}}, {{issueBody}}
 - model: OpenAi model (optional)
+- max_tokens: OpenAI max_tokens (response length) (optional)
 
 ## How does It work?
 

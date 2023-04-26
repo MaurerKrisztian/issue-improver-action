@@ -8,7 +8,8 @@ async function run() {
     const apiKey = core.getInput('api-key');
     const template = core.getInput('template');
     const githubToken = core.getInput('github-token');
-    const model = core.getInput('model') || 'text-davinci-003';
+    const model = core.getInput('model', { required: false }) || 'text-davinci-003';
+    const maxTokens = Number.parseInt(core.getInput('max_tokens', { required: false })) || 150;
 
     const octokit = await github.getOctokit(githubToken);
     const context = github.context;
@@ -30,7 +31,7 @@ async function run() {
     const completion = await openaiClient.createCompletion({
         model: model,
         prompt: resolvedTemple,
-        max_tokens: 150,
+        max_tokens: maxTokens,
     });
     const gptMessage = completion.data.choices[0].text;
 
