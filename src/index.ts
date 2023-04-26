@@ -21,9 +21,7 @@ async function run() {
         author: issue.user.login || '',
     });
 
-    core.notice(`
-Prompt: 
-${resolvedTemple}`);
+    core.notice(`[Prompt]: ${resolvedTemple}`);
     const configuration = new Configuration({
         apiKey: apiKey,
     });
@@ -34,6 +32,8 @@ ${resolvedTemple}`);
         max_tokens: 150,
     });
     const gptMessage = completion.data.choices[0].text;
+
+    core.notice(`[GPT MESSAGE]: ${resolvedTemple}`);
 
     await octokit.rest.issues.createComment({
         owner: context.repo.owner,
