@@ -21,6 +21,9 @@ jobs:
         run: |
           git config --global user.name "Github bot"
           git config --global user.email "email@mail.com"
-          git add -A
-          git commit -m "Update latest branch"
-          git push origin latest --force
+          git commit -a -m "Update latest branch"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: latest
