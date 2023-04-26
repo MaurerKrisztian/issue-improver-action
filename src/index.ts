@@ -22,7 +22,7 @@ async function run() {
         apiKey: core.getInput('api-key'),
         findRelatedIssues: core.getInput('find-related-issues') == 'true',
         githubToken: core.getInput('github-token'),
-        maxTokens: Number.parseInt(core.getInput('github-token')),
+        maxTokens: Number.parseInt(core.getInput('max_tokens')),
         model: core.getInput('model', { required: false }),
         template: core.getInput('template'),
     };
