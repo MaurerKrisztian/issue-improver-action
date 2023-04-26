@@ -12,7 +12,7 @@ inputs:
     default: 150
     type: number
   find-related-issues:
-    description: 'OpenAI max_tokens (response length)'
+    description: 'Find related issues'
     default: true
     type: boolean
   template:

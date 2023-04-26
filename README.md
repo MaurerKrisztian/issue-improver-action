@@ -7,16 +7,22 @@
 GitHub Action that automates issue improvement suggestions using OpenAI.
 
 ## Inputs:
--  api-key: OpenAi api key
-- template: The resolved template will be sent to GPT. 
-You can use placeholders related to the issue: {{author}}, {{issueTitle}}, {{issueBody}}
-- model: OpenAi model (optional)
-- max_tokens: OpenAI max_tokens (response length) (optional)
+
+| Input             | Required | Default            | Info                                                                                               |
+| ----------------- | -------- |--------------------|----------------------------------------------------------------------------------------------------|
+| api-key           | Yes      | N/A                | OpenAI API key                                                                                     |
+| template          | Yes      | N/A                | The resolved template will be sent to GPT. Placeholders: {{author}}, {{issueTitle}}, {{issueBody}} |
+| find-related-issues| No       | False              | Create a related issues section.                                                                   |
+| model             | No       | 'text-davinci-003' | OpenAI model                                                                                       |
+| max_tokens        | No       | 150                | OpenAI max_tokens (response length)                                                                |
+
 
 ## How does It work?
 
 
-Whenever an issue is created, this action can be triggered to gather the relevant issue data, use it to resolve the template variable, and submit it to a GPT model. The resulting response will then be added as a comment to the issue.
+Whenever an issue is created, this action can be triggered to gather the relevant issue data, use it to resolve the template variable, and submit it to a GPT model.
+Find related issues among open issues.
+The resulting responses will then be added as a comment to the issue.
 
 ## Action example:
 
