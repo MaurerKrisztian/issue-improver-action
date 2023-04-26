@@ -19,6 +19,8 @@ jobs:
         run: npm run package
       - name: push to latest branch
         run: |
+          git config --global user.name "Github bot"
+          git config --global user.email "email@mail.com"
           git branch -D latest || true
           git checkout -b latest
           git add .
