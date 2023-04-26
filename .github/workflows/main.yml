@@ -21,6 +21,8 @@ jobs:
         run: |
           git config --global user.name "Github bot"
           git config --global user.email "email@mail.com"
+          rm .gitignore
+          npm run package
           git add -A
 
       - name: Create latest branch
