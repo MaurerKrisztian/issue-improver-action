@@ -17,13 +17,19 @@ jobs:
         run: npm ci # replace with your build script command
       - name: build
         run: npm run package
-      - name: push to latest branch
+      - name: Configure git
         run: |
           git config --global user.name "Github bot"
           git config --global user.email "email@mail.com"
-          git commit -a -m "Update latest branch"
-      - name: Push changes
+
+      - name: Create latest branch
+        run: git branch -f latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push changes to latest branch
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: latest
+          force: true
