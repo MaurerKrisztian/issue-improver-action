@@ -21,6 +21,7 @@ jobs:
         run: |
           git config --global user.name "Github bot"
           git config --global user.email "email@mail.com"
+          git add -A
 
       - name: Create latest branch
         run: git branch -f latest
