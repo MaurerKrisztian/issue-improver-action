@@ -20,8 +20,9 @@ jobs:
 
       - name: Build and push
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git checkout main
+          git pull origin main
+          git branch -D latest
           git checkout -b latest
           git add .
           git commit -m "build"
