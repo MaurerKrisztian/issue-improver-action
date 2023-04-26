@@ -36,9 +36,9 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
         }));
 
         const resolvedTemple = Utils.resolveTemplate(
-            `Find related issues to: " {{issueTitle}} "  from thies issues: ${JSON.stringify(
+            `Find very similar related issue titles for " title: {{issueTitle}} "  from thies issues: ${JSON.stringify(
                 issues,
-            )}. Make a list of issue title what is may related in this format [title](link)`,
+            )}. If none of them very similar just respond with a "none". Make a list of issue title what is may related in this format [title](link)`,
             {
                 issueBody: issue?.body || '',
                 issueTitle: issue?.title || '',
