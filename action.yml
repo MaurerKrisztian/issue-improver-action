@@ -14,17 +14,21 @@ inputs:
     description: 'OpenAI max_tokens / section (response length)'
     default: 150
     type: number
+    required: false
   add-related-issues-section:
     description: 'Find related issues'
     default: true
     type: boolean
+    required: false
   add-summary-section:
     description: 'Add summary'
     default: true
     type: boolean
+    required: false
   github-token:
     description: 'GitHub token with the `repo` scope'
     default: ${{ github.token }}
+    required: false
 runs:
   using: 'node16'
   main: './dist/index.js'

@@ -81,6 +81,4 @@ jobs:
         uses: MaurerKrisztian/issue-improver-action@latest
         with:
           api-key: ${{ secrets.GPT_KEY }}
-          template: "{{author}} created an issue in github, please sumarize it at [sumarize] section and give suggesion how can improve the issue text at [suggesion] section. Apply it for this github issue:  {{issueTitle}} {{issueBody}}"
-
 ```
