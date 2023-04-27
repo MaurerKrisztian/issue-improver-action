@@ -4,6 +4,9 @@ inputs:
   api-key:
     description: 'OpenAI API key'
     required: true
+  config-file:
+    description: 'configuration file name with path.'
+    required: false
   model:
     description: 'OpenAI model'
     default: 'text-davinci-003'

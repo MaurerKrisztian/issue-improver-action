@@ -7,7 +7,8 @@ import { context } from '@actions/github';
 import { Utils } from '../utils';
 import { ISectionCreator } from './section-creator.interface';
 import { ISection } from '../services/comment-builder';
-import * as core from "@actions/core";
+import * as core from '@actions/core';
+import { IConfig } from '../config/config-reader';
 
 export class RelatedIssuesSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs) {
@@ -20,7 +21,8 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
             Api & {
                 paginate: PaginateInterface;
             },
-    ): Promise<ISection> {
+        config: Partial<IConfig>,
+    ): Promise<ISection[]> {
         const issue = context.payload.issue;
 
         const issuesResponse = await octokit.rest.issues.listForRepo({
@@ -35,16 +37,12 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
             link: issue.html_url,
         }));
 
-        const resolvedTemple = Utils.resolveTemplate(
-            `Find very similar related issue titles for " title: {{issueTitle}} "  from thies issues: ${JSON.stringify(
-                issues,
-            )}. If none of them very similar just respond with a "none". Make a list of issue title what is may related in this format [title](link) - [the similarity]`,
-            {
-                issueBody: issue?.body || '',
-                issueTitle: issue?.title || '',
-                author: issue.user.login || '',
-            },
-        );
+        const resolvedTemple = Utils.resolveTemplate(config.sections.relatedIssues.prompt, {
+            issueBody: issue?.body || '',
+            issueTitle: issue?.title || '',
+            author: issue.user.login || '',
+            openIssues: JSON.stringify(issues),
+        });
 
         core.notice(`[ASK GPT]: ${resolvedTemple}`);
         const relatedIssuesResponse = await openaiClient.createCompletion({
@@ -54,9 +52,11 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
         });
         const message = relatedIssuesResponse.data.choices[0].text;
         core.notice(`[Response GPT]: ${message}`);
-        return {
-            title: '[GPT Related issues]',
-            description: message,
-        };
+        return [
+            {
+                title: config.sections.relatedIssues.title,
+                description: message,
+            },
+        ];
     }
 }

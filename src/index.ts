@@ -15,6 +15,7 @@ export interface IInputs {
     model: string;
     findRelatedIssues: boolean;
     maxTokens: number;
+    configFile: string;
 }
 
 const sectionCreators = [new CustomSectionCreator(), new RelatedIssuesSectionCreator(), new SummariseSectionCreator()];
@@ -26,9 +27,10 @@ async function run() {
         maxTokens: Number.parseInt(core.getInput('max_tokens')),
         model: core.getInput('model', { required: false }),
         template: core.getInput('template'),
+        configFile: core.getInput('config-file'),
     };
 
-    await getConfig();
+    const config = await getConfig(inputs.configFile);
 
     const openaiClient = new OpenAIApi(
         new Configuration({
@@ -44,8 +46,8 @@ async function run() {
 
     const commentBuilder = new CommentBuilder();
     for (const sectionCreator of sectionCreators) {
-        if (sectionCreator.isAddSection(inputs)) {
-            commentBuilder.addSection(await sectionCreator.createSection(inputs, openaiClient, octokit));
+        if (sectionCreator.isAddSection(inputs, config)) {
+            commentBuilder.addSections(await sectionCreator.createSection(inputs, openaiClient, octokit, config));
         }
     }
 

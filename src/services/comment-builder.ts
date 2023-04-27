@@ -17,6 +17,12 @@ ${options.description}
 `;
     }
 
+    addSections(sections: ISection[]) {
+        for (const section of sections) {
+            this.addSection(section);
+        }
+    }
+
     getMessage() {
         return this.message;
     }
