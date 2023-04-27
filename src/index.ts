@@ -6,6 +6,7 @@ import { CommentBuilder } from './services/comment-builder';
 import { CustomSectionCreator } from './section-creators/custom.section-creator';
 import { RelatedIssuesSectionCreator } from './section-creators/related-issues.section-creator';
 import { SummariseSectionCreator } from './section-creators/summarise.section-creator';
+import { getConfig } from './config/config-reader';
 
 export interface IInputs {
     apiKey: string;
@@ -26,6 +27,8 @@ async function run() {
         model: core.getInput('model', { required: false }),
         template: core.getInput('template'),
     };
+
+    await getConfig();
 
     const openaiClient = new OpenAIApi(
         new Configuration({
