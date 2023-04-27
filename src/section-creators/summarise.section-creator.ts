@@ -1,14 +1,14 @@
-import { IInputs } from '../index';
 import { OpenAIApi } from 'openai';
 import { Octokit } from '@octokit/core';
 import { Api } from '@octokit/plugin-rest-endpoint-methods/dist-types/types';
 import { PaginateInterface } from '@octokit/plugin-paginate-rest';
 import { context } from '@actions/github';
 import { ISection } from '../services/comment-builder';
-import { ISectionCreator } from './section-creator.interface';
+import { ISectionCreator } from '../interfaces/section-creator.interface';
 import * as core from '@actions/core';
-import { IConfig } from '../config/config-reader';
-import { Utils } from '../utils';
+import { Utils } from '../services/utils';
+import { IConfig } from '../interfaces/config.interface';
+import { IInputs } from '../interfaces/inputs.interface';
 
 export class SummariseSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
@@ -38,7 +38,7 @@ export class SummariseSectionCreator implements ISectionCreator {
         core.notice(`[Response GPT]: ${message}`);
         return [
             {
-                title: config.sections.summary.prompt,
+                title: config.sections.summary.title,
                 description: message,
             },
         ];

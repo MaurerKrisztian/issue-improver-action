@@ -1,24 +1,12 @@
 import fs from 'fs';
 import * as core from '@actions/core';
-
-export interface ISectionPrompt {
-    title: string;
-    prompt: string;
-    enable?: boolean;
-}
-export interface IConfig {
-    sections: {
-        custom: ISectionPrompt[];
-        summary: ISectionPrompt;
-        relatedIssues: ISectionPrompt;
-    };
-}
+import { IConfig } from '../interfaces/config.interface';
 
 const defaultConfig: IConfig = {
     sections: {
         custom: [
             {
-                title: '[Custom]',
+                title: '[JOKE]',
                 prompt: 'make a joke about this: {{issueTitle}}',
             },
         ],

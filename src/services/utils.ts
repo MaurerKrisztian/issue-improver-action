@@ -1,10 +1,7 @@
 export class Utils {
     static resolveTemplate(template: string, context: Record<string, string>) {
-        const usedOption = {
-            removeNotFounded: true,
-        };
         return template.replace(/{{([^}]+)}}/g, (match, prop) => {
-            return context[prop] ?? (usedOption.removeNotFounded ? '' : `${match}`);
+            return context[prop] ?? `${match}`;
         });
     }
 }

@@ -1,14 +1,14 @@
-import { IInputs } from '../index';
 import { OpenAIApi } from 'openai';
 import { Octokit } from '@octokit/core';
 import { Api } from '@octokit/plugin-rest-endpoint-methods/dist-types/types';
 import { PaginateInterface } from '@octokit/plugin-paginate-rest';
 import { context } from '@actions/github';
-import { Utils } from '../utils';
-import { ISectionCreator } from './section-creator.interface';
+import { Utils } from '../services/utils';
+import { ISectionCreator } from '../interfaces/section-creator.interface';
 import { ISection } from '../services/comment-builder';
 import * as core from '@actions/core';
-import { IConfig } from '../config/config-reader';
+import { IConfig } from '../interfaces/config.interface';
+import { IInputs } from '../interfaces/inputs.interface';
 
 export class RelatedIssuesSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs) {

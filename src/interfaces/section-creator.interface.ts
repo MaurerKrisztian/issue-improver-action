@@ -4,7 +4,7 @@ import { Octokit } from '@octokit/core';
 import { Api } from '@octokit/plugin-rest-endpoint-methods/dist-types/types';
 import { PaginateInterface } from '@octokit/plugin-paginate-rest';
 import { ISection } from '../services/comment-builder';
-import { IConfig } from '../config/config-reader';
+import { IConfig } from './config.interface';
 
 export interface ISectionCreator {
     isAddSection(inputs: IInputs, config?: Partial<IConfig>): boolean;

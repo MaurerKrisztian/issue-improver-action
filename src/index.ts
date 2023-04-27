@@ -7,16 +7,7 @@ import { CustomSectionCreator } from './section-creators/custom.section-creator'
 import { RelatedIssuesSectionCreator } from './section-creators/related-issues.section-creator';
 import { SummariseSectionCreator } from './section-creators/summarise.section-creator';
 import { getConfig } from './config/config-reader';
-
-export interface IInputs {
-    apiKey: string;
-    template: string;
-    githubToken: string;
-    model: string;
-    findRelatedIssues: boolean;
-    maxTokens: number;
-    configFile: string;
-}
+import { IInputs } from './interfaces/inputs.interface';
 
 const sectionCreators = [new CustomSectionCreator(), new RelatedIssuesSectionCreator(), new SummariseSectionCreator()];
 async function run() {
