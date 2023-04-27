@@ -8,6 +8,7 @@ import { ISectionCreator } from '../interfaces/section-creator.interface';
 import { ISection } from '../services/comment-builder';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
+import * as core from '@actions/core';
 
 export class CustomSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config?: Partial<IConfig>): boolean {
@@ -26,11 +27,12 @@ export class CustomSectionCreator implements ISectionCreator {
 
         const askGpt = async (prompt: string) => {
             const resolvedPrompt = Utils.resolveTemplate(prompt, {
-                issueBody: issue?.body || '',
-                issueTitle: issue?.title || '',
-                author: issue.user.login || '',
+                issueBody: issue?.body,
+                issueTitle: issue?.title,
+                author: issue?.user?.login,
             });
 
+            core.notice(`[Ask GPT]: ${resolvedPrompt}`);
             return (
                 await openaiClient.createCompletion({
                     model: inputs.model,

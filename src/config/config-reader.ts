@@ -22,6 +22,7 @@ export function getConfig(path?: string): Partial<IConfig> {
     if (!fs.existsSync(fileName)) {
         core.notice(`Config file '${fileName}' not found.`);
         core.notice(`Loading default config.`);
+        core.notice(`Config loaded: ${JSON.stringify(defaultConfig)}`);
         return defaultConfig;
     }
     const fileContents = fs.readFileSync(fileName, 'utf8');

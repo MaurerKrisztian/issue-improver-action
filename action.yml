@@ -11,16 +11,17 @@ inputs:
     description: 'OpenAI model'
     default: 'text-davinci-003'
   max_tokens:
-    description: 'OpenAI max_tokens (response length)'
+    description: 'OpenAI max_tokens / section (response length)'
     default: 150
     type: number
-  find-related-issues:
+  add-related-issues-section:
     description: 'Find related issues'
     default: true
     type: boolean
-  template:
-    description: 'Prompt to use when requesting suggestions from the API. You can use {{issueBody}}, {{issueTitle}} placeholders.'
-    required: true
+  add-summary-section:
+    description: 'Add summary'
+    default: true
+    type: boolean
   github-token:
     description: 'GitHub token with the `repo` scope'
     default: ${{ github.token }}

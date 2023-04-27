@@ -13,7 +13,8 @@ const sectionCreators = [new CustomSectionCreator(), new RelatedIssuesSectionCre
 async function run() {
     const inputs: IInputs = {
         apiKey: core.getInput('api-key'),
-        findRelatedIssues: core.getInput('find-related-issues') == 'true',
+        addRelatedIssuesSection: core.getInput('add-related-issues-section') == 'true',
+        addSummarySection: core.getInput('add-summary-section') == 'true',
         githubToken: core.getInput('github-token'),
         maxTokens: Number.parseInt(core.getInput('max_tokens')),
         model: core.getInput('model', { required: false }),

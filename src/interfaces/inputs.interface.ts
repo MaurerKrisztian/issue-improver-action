@@ -3,7 +3,8 @@ export interface IInputs {
     template: string;
     githubToken: string;
     model: string;
-    findRelatedIssues: boolean;
+    addRelatedIssuesSection: boolean;
+    addSummarySection: boolean;
     maxTokens: number;
     configFile: string;
 }

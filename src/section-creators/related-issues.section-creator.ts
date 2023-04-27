@@ -11,8 +11,12 @@ import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
 
 export class RelatedIssuesSectionCreator implements ISectionCreator {
-    isAddSection(inputs: IInputs) {
-        return inputs.findRelatedIssues;
+    isAddSection(inputs: IInputs, config: Partial<IConfig>) {
+        return (
+            inputs.addRelatedIssuesSection &&
+            !!config.sections.relatedIssues.prompt &&
+            !!config.sections.relatedIssues.title
+        );
     }
     async createSection(
         inputs: IInputs,
@@ -38,24 +42,23 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
         }));
 
         const resolvedTemple = Utils.resolveTemplate(config.sections.relatedIssues.prompt, {
-            issueBody: issue?.body || '',
-            issueTitle: issue?.title || '',
-            author: issue.user.login || '',
+            issueBody: issue?.body,
+            issueTitle: issue?.title,
+            author: issue.user.login,
             openIssues: JSON.stringify(issues),
         });
 
-        core.notice(`[ASK GPT]: ${resolvedTemple}`);
+        core.notice(`[Ask GPT]: ${resolvedTemple}`);
         const relatedIssuesResponse = await openaiClient.createCompletion({
             model: inputs.model,
             prompt: resolvedTemple,
             max_tokens: inputs.maxTokens,
         });
-        const message = relatedIssuesResponse.data.choices[0].text;
-        core.notice(`[Response GPT]: ${message}`);
+
         return [
             {
                 title: config.sections.relatedIssues.title,
-                description: message,
+                description: relatedIssuesResponse.data.choices[0].text,
             },
         ];
     }

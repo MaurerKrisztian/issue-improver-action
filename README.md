@@ -8,20 +8,53 @@ GitHub Action that automates issue improvement suggestions using OpenAI.
 
 ## Inputs:
 
-| Input             | Required | Default            | Info                                                                                               |
-| ----------------- | -------- |--------------------|----------------------------------------------------------------------------------------------------|
-| api-key           | Yes      | N/A                | OpenAI API key                                                                                     |
-| template          | Yes      | N/A                | The resolved template will be sent to GPT. Placeholders: {{author}}, {{issueTitle}}, {{issueBody}} |
-| find-related-issues| No       | False              | Create a related issues section.                                                                   |
-| model             | No       | 'text-davinci-003' | OpenAI model                                                                                       |
-| max_tokens        | No       | 150                | OpenAI max_tokens (response length)                                                                |
+| Input             | Required | Default                    | Info                                |
+| ----------------- |----------|----------------------------|-------------------------------------|
+| api-key           | Yes      | N/A                        | OpenAI API key                      |
+| config-file       | No       | issue-improver-config.json | Configuration file                  |
+| add-related-issues-section| No       | True                       | Create a related issues section.    |
+| add-summary-section| No       | True                       | Create a summary section.           |
+| model             | No       | 'text-davinci-003'         | OpenAI model                        |
+| max_tokens        | No       | 150                        | OpenAI max_tokens (response length) |
 
+## Custom section:
 
+To create custom sections, simply create a JSON file (location is the `config-file` input) and modify the prompts and section titles as desired. Additionally, you can add new custom sections to the sections.custom array within the configuration file. This step is optional.
+
+#### Example config:
+```json
+{
+  "sections":{
+    "custom":[
+      {
+        "title":"[JOKE]",
+        "prompt":"make a joke about this: {{issueTitle}}"
+      },
+      {
+        "title":"[Poem]",
+        "prompt":"Write a short poem about this: {{issueTitle}}"
+      }
+    ],
+    "relatedIssues":{
+      "title":"[Related Issues]",
+      "prompt":"Find very similar related issue titles for \" title: {{issueTitle}} \"  from thies issues: {{openIssues}} . If none of them very similar just respond with a \"none\". Make a list of issue title what is may related in this format [title](link) - [the similarity]"
+    },
+    "summary":{
+      "title":"[Summary]",
+      "prompt":"Summarize this github issue: {{issueTitle}} {{issueBody}}"
+    }
+  }
+}
+```
 ## How does It work?
 
 
-Whenever an issue is created, this action can be triggered to gather the relevant issue data, use it to resolve the template variable, and submit it to a GPT model.
-Find related issues among open issues.
+Whenever an issue is created, this action can be triggered to gather the relevant issue data, use it to resolve the template prompts, and submit it to a GPT model.
+
+E.g
+- Find related issues among open issues.
+- Summarize issues.
+
 The resulting responses will then be added as a comment to the issue.
 
 ## Action example:

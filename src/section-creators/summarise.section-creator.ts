@@ -12,7 +12,7 @@ import { IInputs } from '../interfaces/inputs.interface';
 
 export class SummariseSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
-        return !!config.sections.summary.prompt && !!config.sections.summary.title;
+        return inputs.addSummarySection && !!config.sections.summary.prompt && !!config.sections.summary.title;
     }
     async createSection(
         inputs: IInputs,
@@ -25,17 +25,20 @@ export class SummariseSectionCreator implements ISectionCreator {
     ): Promise<ISection[]> {
         const issue = context.payload.issue;
 
+        const prompt = Utils.resolveTemplate(config?.sections?.summary?.prompt, {
+            issueTile: issue.title,
+            issueBody: issue.body,
+        });
+
+        core.notice(`[Ask GPT]: ${prompt}`);
+
         const message = (
             await openaiClient.createCompletion({
                 model: inputs.model,
-                prompt: Utils.resolveTemplate(config?.sections?.summary?.prompt, {
-                    issueTile: issue.title,
-                    issueBody: issue.body,
-                }),
+                prompt: prompt,
                 max_tokens: inputs.maxTokens,
             })
         ).data.choices[0].text;
-        core.notice(`[Response GPT]: ${message}`);
         return [
             {
                 title: config.sections.summary.title,
