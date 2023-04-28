@@ -26,7 +26,7 @@ export class SummariseSectionCreator implements ISectionCreator {
         const issue = context.payload.issue;
 
         const prompt = Utils.resolveTemplate(config?.sections?.summary?.prompt, {
-            issueTile: issue.title,
+            issueTitle: issue.title,
             issueBody: issue.body,
         });
 

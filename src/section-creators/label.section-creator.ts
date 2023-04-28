@@ -41,7 +41,7 @@ export class LabelSectionCreator implements ISectionCreator {
         core.notice(`Labels: ${JSON.stringify(labels)}`);
 
         const prompt = Utils.resolveTemplate(config?.sections?.labelSuggestion?.prompt, {
-            issueTile: issue.title,
+            issueTitle: issue.title,
             issueBody: issue.body,
             allLabel: JSON.stringify(labels),
         });
