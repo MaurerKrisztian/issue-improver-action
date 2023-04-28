@@ -37,13 +37,16 @@ export class SummariseCommentsSectionCreator implements ISectionCreator {
         });
 
         const comments = response.data as IIssueComment[];
+        const issueComments = comments.map((comment) => {
+            return { body: comment?.body, created_at: comment?.created_at, author: comment?.user?.login };
+        });
 
-        core.notice(`Comments: ${JSON.stringify(comments)}`);
+        core.notice(`Comments: ${JSON.stringify(issueComments)}`);
 
         const prompt = Utils.resolveTemplate(config?.sections?.commentSummary?.prompt, {
             issueTitle: issue.title,
             issueBody: issue.body,
-            issueComments: JSON.stringify(comments),
+            issueComments: JSON.stringify(issueComments),
         });
 
         const message = (

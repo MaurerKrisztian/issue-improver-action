@@ -35,8 +35,7 @@ export function getConfig(path?: string): Partial<IConfig> {
     }
     const fileContents = fs.readFileSync(fileName, 'utf8');
     const config = JSON.parse(fileContents);
-    core.notice(`Config loaded: ${JSON.stringify(config)}`);
     config.sections = { ...defaultConfig.sections, ...config.sections };
-
+    core.notice(`Config loaded: ${JSON.stringify(config)}`);
     return config;
 }
