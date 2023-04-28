@@ -8,4 +8,5 @@ export interface IInputs {
     maxTokens: number;
     configFile: string;
     debug: boolean;
+    addCommentSummarySection: boolean;
 }

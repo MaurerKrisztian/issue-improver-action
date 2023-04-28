@@ -19,6 +19,10 @@ const defaultConfig: IConfig = {
             title: '[Label Suggestion]',
             prompt: 'Please make a label suggestion form this labels {{allLabels}} for this github issue: {{issueTitle}} {{issueBody}}.',
         },
+        commentSummary: {
+            title: '[Comment summary]',
+            prompt: 'Summarize thies comments {{issueComments}} for this issue {{issueTitle}} {{issueBody}}',
+        },
     },
 };
 export function getConfig(path?: string): Partial<IConfig> {

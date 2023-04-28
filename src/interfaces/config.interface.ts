@@ -6,5 +6,6 @@ export interface IConfig {
         summary: ISectionPrompt;
         relatedIssues: ISectionPrompt;
         labelSuggestion: ISectionPrompt;
+        commentSummary: ISectionPrompt;
     };
 }

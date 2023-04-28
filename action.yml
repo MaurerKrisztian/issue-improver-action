@@ -29,6 +29,11 @@ inputs:
     default: true
     type: boolean
     required: false
+  add-comment-summary-section:
+    description: 'Add comment summary'
+    default: false
+    type: boolean
+    required: false
   github-token:
     description: 'GitHub token with the `repo` scope'
     default: ${{ github.token }}

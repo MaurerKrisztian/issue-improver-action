@@ -9,18 +9,21 @@ import { SummariseSectionCreator } from './section-creators/summarise.section-cr
 import { getConfig } from './config/config-reader';
 import { IInputs } from './interfaces/inputs.interface';
 import { LabelSectionCreator } from './section-creators/label.section-creator';
+import { SummariseCommentsSectionCreator } from './section-creators/summarise-comments.section-creator';
 
 const sectionCreators = [
     new CustomSectionCreator(),
     new RelatedIssuesSectionCreator(),
     new SummariseSectionCreator(),
     new LabelSectionCreator(),
+    new SummariseCommentsSectionCreator(),
 ];
 async function run() {
     const inputs: IInputs = {
         apiKey: core.getInput('api-key'),
         addRelatedIssuesSection: core.getInput('add-related-issues-section') == 'true',
         addSummarySection: core.getInput('add-summary-section') == 'true',
+        addCommentSummarySection: core.getInput('add-comment-summary-section') == 'true',
         githubToken: core.getInput('github-token'),
         maxTokens: Number.parseInt(core.getInput('max_tokens')),
         model: core.getInput('model', { required: false }),
