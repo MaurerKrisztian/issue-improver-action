@@ -57,6 +57,7 @@ export class LabelSectionCreator implements ISectionCreator {
         ).data.choices[0].text;
         return [
             {
+                prompt: prompt,
                 title: config?.sections?.labelSuggestion?.title,
                 description: message,
             },

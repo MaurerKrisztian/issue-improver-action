@@ -7,4 +7,5 @@ export interface IInputs {
     addSummarySection: boolean;
     maxTokens: number;
     configFile: string;
+    debug: boolean;
 }

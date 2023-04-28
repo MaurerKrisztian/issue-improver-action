@@ -41,6 +41,7 @@ export class SummariseSectionCreator implements ISectionCreator {
         ).data.choices[0].text;
         return [
             {
+                prompt: prompt,
                 title: config.sections.summary.title,
                 description: message,
             },

@@ -26,6 +26,7 @@ async function run() {
         model: core.getInput('model', { required: false }),
         template: core.getInput('template'),
         configFile: core.getInput('config-file'),
+        debug: core.getInput('debug') == 'true',
     };
 
     const config = await getConfig(inputs.configFile);

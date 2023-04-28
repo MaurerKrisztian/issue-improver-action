@@ -4,6 +4,10 @@ inputs:
   api-key:
     description: 'OpenAI API key'
     required: true
+  debug:
+    description: 'Show the prompt in the comment.'
+    default: 'false'
+    required: false
   config-file:
     description: 'configuration file name with path.'
     required: false

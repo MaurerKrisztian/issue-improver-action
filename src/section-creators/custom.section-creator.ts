@@ -26,17 +26,11 @@ export class CustomSectionCreator implements ISectionCreator {
         const issue = context.payload.issue;
 
         const askGpt = async (prompt: string) => {
-            const resolvedPrompt = Utils.resolveTemplate(prompt, {
-                issueBody: issue?.body,
-                issueTitle: issue?.title,
-                author: issue?.user?.login,
-            });
-
-            core.notice(`[Ask GPT]: ${resolvedPrompt}`);
+            core.notice(`[Ask GPT]: ${prompt}`);
             return (
                 await openaiClient.createCompletion({
                     model: inputs.model,
-                    prompt: resolvedPrompt,
+                    prompt: prompt,
                     max_tokens: inputs.maxTokens,
                 })
             ).data.choices[0].text;
@@ -44,8 +38,13 @@ export class CustomSectionCreator implements ISectionCreator {
 
         const resultSections: ISection[] = [];
         for (const sectionConfig of config.sections.custom) {
-            const message = await askGpt(sectionConfig.prompt);
-            resultSections.push({ title: sectionConfig.title, description: message });
+            const resolvedPrompt = Utils.resolveTemplate(sectionConfig.prompt, {
+                issueBody: issue?.body,
+                issueTitle: issue?.title,
+                author: issue?.user?.login,
+            });
+            const message = await askGpt(resolvedPrompt);
+            resultSections.push({ title: sectionConfig.title, description: message, prompt: resolvedPrompt });
         }
 
         return resultSections;

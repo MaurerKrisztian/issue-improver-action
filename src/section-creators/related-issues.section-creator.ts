@@ -57,6 +57,7 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
 
         return [
             {
+                prompt: resolvedTemple,
                 title: config.sections.relatedIssues.title,
                 description: relatedIssuesResponse.data.choices[0].text,
             },
