@@ -21,9 +21,9 @@ ${options.description}
 `;
     }
 
-    addSections(sections: ISection[]) {
+    addSections(sections: ISection[], isDebug: boolean = false) {
         for (const section of sections) {
-            this.addSection(section);
+            this.addSection(section, isDebug);
         }
     }
 

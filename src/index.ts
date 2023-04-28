@@ -40,13 +40,16 @@ async function run() {
     const octokit = await github.getOctokit(inputs.githubToken);
     const context = github.context;
     const issue = context.payload.issue;
-    core.notice(`Max token / section: ${inputs.maxTokens}`);
+    core.notice(`Is debug mode: ${inputs.debug ? 'true' : 'false'}`);
     core.notice(JSON.stringify(issue));
 
     const commentBuilder = new CommentBuilder();
     for (const sectionCreator of sectionCreators) {
         if (sectionCreator.isAddSection(inputs, config)) {
-            commentBuilder.addSections(await sectionCreator.createSection(inputs, openaiClient, octokit, config));
+            commentBuilder.addSections(
+                await sectionCreator.createSection(inputs, openaiClient, octokit, config),
+                inputs.debug,
+            );
         }
     }
 
