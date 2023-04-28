@@ -12,9 +12,13 @@ const defaultConfig: IConfig = {
         ],
         relatedIssues: {
             title: '[Related Issues]',
-            prompt: 'Find very similar related issue titles for " title: {{issueTitle}} "  from thies issues: {{openIssues}} . If none of them very similar just respond with a "none". Make a list of issue title what is may related in this format [title](link) - [the similarity]',
+            prompt: 'Find very similar related issue titles for " title: {{issueTitle}} "  from thies issues: {{openIssues}} . If none of them very similar just respond with a "none". Make a list of issue title what is related in this format [title](link) - [the similarity]',
         },
         summary: { title: '[Summary]', prompt: 'Summarize this github issue: {{issueTitle}} {{issueBody}}' },
+        labelSuggestion: {
+            title: '[Label Suggestion]',
+            prompt: 'Please make a label suggestion form this labels {{allLabels}} for this github issue: {{issueTitle}} {{issueBody}}.',
+        },
     },
 };
 export function getConfig(path?: string): Partial<IConfig> {

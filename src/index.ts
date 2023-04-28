@@ -8,8 +8,14 @@ import { RelatedIssuesSectionCreator } from './section-creators/related-issues.s
 import { SummariseSectionCreator } from './section-creators/summarise.section-creator';
 import { getConfig } from './config/config-reader';
 import { IInputs } from './interfaces/inputs.interface';
+import { LabelSectionCreator } from './section-creators/label.section-creator';
 
-const sectionCreators = [new CustomSectionCreator(), new RelatedIssuesSectionCreator(), new SummariseSectionCreator()];
+const sectionCreators = [
+    new CustomSectionCreator(),
+    new RelatedIssuesSectionCreator(),
+    new SummariseSectionCreator(),
+    new LabelSectionCreator(),
+];
 async function run() {
     const inputs: IInputs = {
         apiKey: core.getInput('api-key'),

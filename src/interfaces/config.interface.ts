@@ -5,5 +5,6 @@ export interface IConfig {
         custom: ISectionPrompt[];
         summary: ISectionPrompt;
         relatedIssues: ISectionPrompt;
+        labelSuggestion: ISectionPrompt;
     };
 }
