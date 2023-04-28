@@ -30,12 +30,13 @@ export class SummariseCommentsSectionCreator implements ISectionCreator {
     ): Promise<ISection[]> {
         const issue = context.payload.issue;
 
-        const comments = await this.getAllCommentsForIssue(
-            context.repo.owner,
-            context.repo.repo,
-            issue.number,
-            inputs.githubToken,
-        );
+        const response = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/comments', {
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: issue.number,
+        });
+
+        const comments = response.data as IIssueComment[];
 
         core.notice(`Comments: ${JSON.stringify(comments)}`);
 
@@ -59,20 +60,5 @@ export class SummariseCommentsSectionCreator implements ISectionCreator {
                 description: message,
             },
         ];
-    }
-
-    private async getAllCommentsForIssue(
-        owner: string,
-        repo: string,
-        issueNumber: number,
-        accessToken: string,
-    ): Promise<IIssueComment[]> {
-        const octokit = new Octokit({ auth: accessToken });
-        const response = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/comments', {
-            owner,
-            repo,
-            issue_number: issueNumber,
-        });
-        return response.data as IIssueComment[];
     }
 }
