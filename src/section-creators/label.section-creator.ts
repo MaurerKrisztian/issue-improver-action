@@ -13,7 +13,7 @@ import { ILabel } from '../interfaces/labels.interface';
 
 export class LabelSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
-        return !!config.sections.labelSuggestion.prompt && !!config.sections.labelSuggestion.title;
+        return !!config.sections?.labelSuggestion?.prompt && !!config.sections?.labelSuggestion?.title;
     }
     async createSection(
         inputs: IInputs,
@@ -43,7 +43,7 @@ export class LabelSectionCreator implements ISectionCreator {
         const prompt = Utils.resolveTemplate(config?.sections?.labelSuggestion?.prompt, {
             issueTile: issue.title,
             issueBody: issue.body,
-            labels: JSON.stringify(labels),
+            allLabel: JSON.stringify(labels),
         });
 
         core.notice(`[Ask GPT]: ${prompt}`);
