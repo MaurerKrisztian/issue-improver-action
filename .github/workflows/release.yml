@@ -23,6 +23,9 @@ jobs:
       - name: build
         run: npm run package
 
+      - name: remove .gitignore
+        run: rm .gitignore
+
       - name: Create release
         uses: actions/create-release@v1
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
@@ -32,3 +35,5 @@ jobs:
           tag_name: ${{ steps.changelog.outputs.tag }}
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
+          draft: true
+          prerelease: true
