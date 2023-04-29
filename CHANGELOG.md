@@ -1,3 +1,12 @@
+## [1.1.4](https://github.com/MaurerKrisztian/issue-improver-action/compare/v1.1.3...v1.1.4) (2023-04-29)
+
+
+### Bug Fixes
+
+* release workflow ([8ecdcfc](https://github.com/MaurerKrisztian/issue-improver-action/commit/8ecdcfcc0837f829896dec9c76001c241e6bf868))
+
+
+
 ## [1.1.3](https://github.com/MaurerKrisztian/issue-improver-action/compare/v1.1.2...v1.1.3) (2023-04-29)
 
 
