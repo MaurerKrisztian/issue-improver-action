@@ -13,18 +13,17 @@ jobs:
           ref: main
       - name: Install dependencies
         run: npm ci
+      - name: build
+        run: npm run package
+      - name: remove .gitignore
+        run: rm .gitignore
       - name: conventional Changelog Action
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3.7.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           version-file: './package.json,./package-lock.json'
-
-      - name: build
-        run: npm run package
-
-      - name: remove .gitignore
-        run: rm .gitignore
+          git-branch: latest
 
       - name: Create release
         uses: actions/create-release@v1
