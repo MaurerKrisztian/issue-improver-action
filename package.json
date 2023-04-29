@@ -1,6 +1,6 @@
 {
   "name": "issue-improver-action",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "GitHub Action that automates issue improvement suggestions using OpenAI GPT.",
   "main": "src/index.ts",
   "scripts": {

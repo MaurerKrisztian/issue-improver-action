@@ -1,4 +1,15 @@
-# 1.1.0 (2023-04-29)
+## [1.1.1](https://github.com/MaurerKrisztian/issue-improver-action/compare/v1.1.0...v1.1.1) (2023-04-29)
+
+
+### Bug Fixes
+
+* ci ([89d7641](https://github.com/MaurerKrisztian/issue-improver-action/commit/89d76418d1f5413d485079f73013337e8ff0ecf5))
+* release ([1335274](https://github.com/MaurerKrisztian/issue-improver-action/commit/1335274c2555c048d4d0ee809e5d46f37d64774a))
+* release ([5179971](https://github.com/MaurerKrisztian/issue-improver-action/commit/51799718fb367dd7d84550273bbb3921d429980c))
+
+
+
+# [1.1.0](https://github.com/MaurerKrisztian/issue-improver-action/compare/ae406eff141ba9033bc1f62675333f0fc43ac8f0...v1.1.0) (2023-04-29)
 
 
 ### Bug Fixes
