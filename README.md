@@ -8,14 +8,18 @@ GitHub Action that automates issue improvement suggestions using OpenAI.
 
 ## Inputs:
 
-| Input             | Required | Default                    | Info                                |
-| ----------------- |----------|----------------------------|-------------------------------------|
-| api-key           | Yes      | N/A                        | OpenAI API key                      |
-| config-file       | No       | issue-improver-config.json | Configuration file                  |
-| add-related-issues-section| No       | True                       | Create a related issues section.    |
-| add-summary-section| No       | True                       | Create a summary section.           |
-| model             | No       | 'text-davinci-003'         | OpenAI model                        |
-| max_tokens        | No       | 150                        | OpenAI max_tokens (response length) |
+| Input                      | Required | Default                    | Info                                           |
+|----------------------------|----------|----------------------------|------------------------------------------------|
+| api-key                    | Yes      | N/A                        | OpenAI API key                                 |
+| config-file                | No       | issue-improver-config.json | Configuration file                             |
+| add-related-issues-section | No       | True                       | Create a related issues section.               |
+| add-summary-section        | No       | True                       | Create a summary section.                      |
+| add-comment-summary-section        | No       |                            | Create comment summary                         |
+| add-custom-section         | No       |                            | Create custom sections                         |
+| add-label-section          | No       |                            | Create label suggesion                         |
+| model                      | No       | 'text-davinci-003'         | OpenAI model                                   |
+| max_tokens                 | No       | 150                        | OpenAI max_tokens (response length)            |
+| debug                 | No       | false                      | Enable debug mode: Show prompts in comments |
 
 ## Custom section:
 
@@ -81,4 +85,29 @@ jobs:
         uses: MaurerKrisztian/issue-improver-action@latest
         with:
           api-key: ${{ secrets.GPT_KEY }}
+```
+
+## Comment Summary
+Occasionally, certain GitHub issues can be overwhelming with an abundance of comments, making it difficult to comprehend the situation. To address this, I have developed a comment summary feature. The YAML code below demonstrates how to activate this summary using the "!summarize" command.
+
+```yml
+on:
+  issue_comment:
+    
+jobs:
+  comment-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run my GPT action
+        uses: MaurerKrisztian/issue-improver-action@latest
+        if: contains(github.event.comment.body, '!summarize')
+        with:
+          api-key: ${{ secrets.GPT_KEY }}
+          max_tokens: 150
+          add-comment-summary-section: "true"
+          add-related-issues-section: "false"
+          add-summary-section: "false"
+          add-label-section: "false"
+          add-custom-section: "false"
 ```
