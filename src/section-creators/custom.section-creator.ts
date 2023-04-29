@@ -12,7 +12,7 @@ import * as core from '@actions/core';
 
 export class CustomSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config?: Partial<IConfig>): boolean {
-        return config?.sections?.custom?.length > 0;
+        return inputs.addCustomSection && config?.sections?.custom?.length > 0;
     }
     async createSection(
         inputs: IInputs,

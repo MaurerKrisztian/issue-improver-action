@@ -5,7 +5,6 @@ import { PaginateInterface } from '@octokit/plugin-paginate-rest';
 import { context } from '@actions/github';
 import { ISection } from '../services/comment-builder';
 import { ISectionCreator } from '../interfaces/section-creator.interface';
-import * as core from '@actions/core';
 import { Utils } from '../services/utils';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
@@ -37,11 +36,11 @@ export class SummariseCommentsSectionCreator implements ISectionCreator {
         });
 
         const comments = response.data as IIssueComment[];
-        const issueComments = comments.map((comment) => {
-            return { body: comment?.body, created_at: comment?.created_at, author: comment?.user?.login };
-        });
-
-        core.notice(`Comments: ${JSON.stringify(issueComments)}`);
+        const issueComments = comments
+            .map((comment) => {
+                return { body: comment?.body, created_at: comment?.created_at, author: comment?.user?.login };
+            })
+            .filter((comment) => comment.author !== 'github-actions[bot]'); // todo: do we need to filter out?
 
         const prompt = Utils.resolveTemplate(config?.sections?.commentSummary?.prompt, {
             issueTitle: issue.title,

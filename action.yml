@@ -24,8 +24,18 @@ inputs:
     default: true
     type: boolean
     required: false
+  add-label-section:
+    description: 'Label suggestion section'
+    default: true
+    type: boolean
+    required: false
   add-summary-section:
     description: 'Add summary'
+    default: true
+    type: boolean
+    required: false
+  add-custom-section:
+    description: 'Add custom sections'
     default: true
     type: boolean
     required: false

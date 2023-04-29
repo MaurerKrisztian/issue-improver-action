@@ -5,8 +5,10 @@ export interface IInputs {
     model: string;
     addRelatedIssuesSection: boolean;
     addSummarySection: boolean;
+    addCustomSection: boolean;
+    addLabelSection: boolean;
+    addCommentSummarySection: boolean;
     maxTokens: number;
     configFile: string;
     debug: boolean;
-    addCommentSummarySection: boolean;
 }

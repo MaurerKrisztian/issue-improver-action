@@ -24,6 +24,8 @@ async function run() {
         addRelatedIssuesSection: core.getInput('add-related-issues-section') == 'true',
         addSummarySection: core.getInput('add-summary-section') == 'true',
         addCommentSummarySection: core.getInput('add-comment-summary-section') == 'true',
+        addCustomSection: core.getInput('add-custom-section') == 'true',
+        addLabelSection: core.getInput('add-label-section') == 'true',
         githubToken: core.getInput('github-token'),
         maxTokens: Number.parseInt(core.getInput('max_tokens')),
         model: core.getInput('model', { required: false }),
