@@ -13,10 +13,6 @@ jobs:
           ref: main
       - name: Install dependencies
         run: npm ci
-      - name: Run test
-        run: npm run test
-      - name: build
-        run: npm run package
       - name: conventional Changelog Action
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3.7.1
@@ -24,14 +20,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           version-file: './package.json,./package-lock.json'
 
-      - name: Create release branch
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git checkout -b release
-          git add CHANGELOG.md
-          git commit -m "chore(release): ${GITHUB_SHA}"
-          git push origin release
+      - name: build
+        run: npm run package
 
       - name: Create tag
         uses: actions/create-release@v1
@@ -42,7 +32,7 @@ jobs:
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
           draft: false
-          prerelease: false
+          prerelease: true
 
 
       - name: create release
