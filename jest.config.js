@@ -1,7 +1,7 @@
 module.exports = {
-    roots: ['<rootDir>/test'],
+    roots: ['<rootDir>/src/test'],
     testMatch: ['**/__tests__/**/*.+(ts|tsx|js)', '**/?(*.)+(spec|test).+(ts|tsx|js)'],
-    coveragePathIgnorePatterns: ['node_modules', '<rootDir>/test'],
+    coveragePathIgnorePatterns: ['node_modules', '<rootDir>/src/test'],
     transform: {
         '^.+\\.(ts|tsx)$': 'ts-jest',
     },
