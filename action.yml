@@ -4,7 +4,7 @@ inputs:
   api-key:
     description: 'OpenAI API key'
     required: true
-  debug:
+  debug-mode:
     description: 'Show the prompt in the comment.'
     default: false
     type: boolean
@@ -12,9 +12,11 @@ inputs:
   config-file:
     description: 'configuration file name with path.'
     required: false
+    default: 'issue-improver-config.json'
   model:
     description: 'OpenAI model'
     default: 'text-davinci-003'
+    required: false
   max_tokens:
     description: 'OpenAI max_tokens / section (response length)'
     default: 150
@@ -22,22 +24,22 @@ inputs:
     required: false
   add-related-issues-section:
     description: 'Find related issues'
-    default: true
+    default: false
     type: boolean
     required: false
   add-label-section:
     description: 'Label suggestion section'
-    default: true
+    default: false
     type: boolean
     required: false
   add-summary-section:
     description: 'Add summary'
-    default: true
+    default: false
     type: boolean
     required: false
   add-custom-section:
     description: 'Add custom sections'
-    default: true
+    default: false
     type: boolean
     required: false
   add-comment-summary-section:

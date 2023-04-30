@@ -21,17 +21,16 @@ const sectionCreators = [
 async function run() {
     const inputs: IInputs = {
         apiKey: core.getInput('api-key'),
-        addRelatedIssuesSection: core.getInput('add-related-issues-section') == 'true',
-        addSummarySection: core.getInput('add-summary-section') == 'true',
-        addCommentSummarySection: core.getInput('add-comment-summary-section') == 'true',
-        addCustomSection: core.getInput('add-custom-section') == 'true',
-        addLabelSection: core.getInput('add-label-section') == 'true',
         githubToken: core.getInput('github-token'),
+        debug: core.getBooleanInput('debug-mode'),
         maxTokens: Number.parseInt(core.getInput('max_tokens')),
         model: core.getInput('model', { required: false }),
-        template: core.getInput('template'),
         configFile: core.getInput('config-file'),
-        debug: core.getInput('debug') == 'true',
+        addRelatedIssuesSection: core.getBooleanInput('add-related-issues-section'),
+        addSummarySection: core.getBooleanInput('add-summary-section'),
+        addCommentSummarySection: core.getBooleanInput('add-comment-summary-section'),
+        addCustomSection: core.getBooleanInput('add-custom-section'),
+        addLabelSection: core.getBooleanInput('add-label-section'),
     };
 
     const config = await getConfig(inputs.configFile);
