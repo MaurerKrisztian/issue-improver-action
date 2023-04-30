@@ -12,14 +12,14 @@ GitHub Action that automates issue improvement suggestions using OpenAI.
 |----------------------------|----------|----------------------------|------------------------------------------------|
 | api-key                    | Yes      | N/A                        | OpenAI API key                                 |
 | config-file                | No       | issue-improver-config.json | Configuration file                             |
-| add-related-issues-section | No       | True                       | Create a related issues section.               |
-| add-summary-section        | No       | True                       | Create a summary section.                      |
-| add-comment-summary-section        | No       |                            | Create comment summary                         |
-| add-custom-section         | No       |                            | Create custom sections                         |
-| add-label-section          | No       |                            | Create label suggesion                         |
+| add-related-issues-section | No       | false                      | Create a related issues section.               |
+| add-summary-section        | No       | false                       | Create a summary section.                      |
+| add-comment-summary-section        | No       |    false                        | Create comment summary                         |
+| add-custom-section         | No       |   false                         | Create custom sections                         |
+| add-label-section          | No       |  false                          | Create label suggesion                         |
 | model                      | No       | 'text-davinci-003'         | OpenAI model                                   |
 | max_tokens                 | No       | 150                        | OpenAI max_tokens (response length)            |
-| debug                 | No       | false                      | Enable debug mode: Show prompts in comments |
+| debug-mode                | No       | false                      | Enable debug mode: Show prompts in comments |
 
 ## Custom section:
 
@@ -85,6 +85,10 @@ jobs:
         uses: MaurerKrisztian/issue-improver-action@latest
         with:
           api-key: ${{ secrets.GPT_KEY }}
+          add-summary-section: true
+          add-related-issues-section: true
+          add-label-section: true
+          add-custom-section: true
 ```
 
 ## Comment Summary
@@ -105,9 +109,5 @@ jobs:
         with:
           api-key: ${{ secrets.GPT_KEY }}
           max_tokens: 150
-          add-comment-summary-section: "true"
-          add-related-issues-section: "false"
-          add-summary-section: "false"
-          add-label-section: "false"
-          add-custom-section: "false"
+          add-comment-summary-section: true
 ```
