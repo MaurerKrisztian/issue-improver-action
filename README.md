@@ -106,3 +106,10 @@ jobs:
           max_tokens: 150
           add-comment-summary-section: true
 ```
+
+## Demo:
+
+
+![image](https://user-images.githubusercontent.com/48491140/235365172-05f4a8ec-04bc-4d77-96d6-cb71237e0fc6.png)
+![image](https://user-images.githubusercontent.com/48491140/235365094-ac4dfa90-36fe-45b1-9ed9-a5d3daa7160a.png)
+
