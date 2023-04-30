@@ -9,7 +9,7 @@ export class CommentBuilder {
 
     addSection(section: ISection, isDebug: boolean = false) {
         core.notice(`Add section: ${section.title}`);
-        core.debug(`Prompt: ${section.prompt}`);
+        core.notice(`Prompt: ${section.prompt}`);
         core.notice(`Answerer: ${section.description}`);
         core.notice(`${section.title}:  ${section.description}`);
         this.message = `
