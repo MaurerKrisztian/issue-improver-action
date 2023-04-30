@@ -13,7 +13,11 @@ import { ILabel } from '../interfaces/labels.interface';
 
 export class LabelSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
-        return !!config.sections?.labelSuggestion?.prompt && !!config.sections?.labelSuggestion?.title;
+        return (
+            inputs.addLabelSection &&
+            !!config.sections?.labelSuggestion?.prompt &&
+            !!config.sections?.labelSuggestion?.title
+        );
     }
     async createSection(
         inputs: IInputs,

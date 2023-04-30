@@ -12,7 +12,7 @@ import { IInputs } from '../interfaces/inputs.interface';
 
 export class SummariseSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
-        return inputs.addSummarySection && !!config.sections.summary.prompt && !!config.sections.summary.title;
+        return inputs.addSummarySection && !!config.sections?.summary?.prompt && !!config.sections?.summary?.title;
     }
     async createSection(
         inputs: IInputs,
