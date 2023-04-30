@@ -6,7 +6,8 @@ inputs:
     required: true
   debug:
     description: 'Show the prompt in the comment.'
-    default: 'false'
+    default: false
+    type: boolean
     required: false
   config-file:
     description: 'configuration file name with path.'
