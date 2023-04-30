@@ -35,17 +35,19 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
             state: 'open',
         });
 
-        const issues = issuesResponse.data.map((issue) => ({
-            number: issue.number,
-            title: issue.title,
-            link: issue.html_url,
-        }));
+        const openIssues = issuesResponse.data
+            .map((issue) => ({
+                number: issue.number,
+                title: issue.title,
+                link: issue.html_url,
+            }))
+            .filter((openIssue) => openIssue.number != issue.number);
 
         const resolvedTemple = Utils.resolveTemplate(config.sections.relatedIssues.prompt, {
             issueBody: issue?.body,
             issueTitle: issue?.title,
             author: issue.user.login,
-            openIssues: JSON.stringify(issues),
+            openIssues: JSON.stringify(openIssues),
         });
 
         const relatedIssuesResponse = await openaiClient.createCompletion({
