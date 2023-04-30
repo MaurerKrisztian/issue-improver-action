@@ -113,3 +113,11 @@ jobs:
 ![image](https://user-images.githubusercontent.com/48491140/235365172-05f4a8ec-04bc-4d77-96d6-cb71237e0fc6.png)
 ![image](https://user-images.githubusercontent.com/48491140/235365094-ac4dfa90-36fe-45b1-9ed9-a5d3daa7160a.png)
 
+
+## Comment summary demo:
+
+![image](https://user-images.githubusercontent.com/48491140/235366942-b43944a8-970c-4e21-8171-3364b955b94b.png)
+![image](https://user-images.githubusercontent.com/48491140/235366958-e2716fa1-b6e5-402b-b441-d51a69a3aaa1.png)
+
+![image](https://user-images.githubusercontent.com/48491140/235366971-00f145d1-e812-439e-80c3-e557ae90d33a.png)
+
