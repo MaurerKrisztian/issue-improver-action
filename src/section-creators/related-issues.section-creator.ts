@@ -48,7 +48,6 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
             openIssues: JSON.stringify(issues),
         });
 
-        core.notice(`[Ask GPT]: ${resolvedTemple}`);
         const relatedIssuesResponse = await openaiClient.createCompletion({
             model: inputs.model,
             prompt: resolvedTemple,

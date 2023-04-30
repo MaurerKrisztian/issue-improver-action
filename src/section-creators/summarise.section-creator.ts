@@ -30,8 +30,6 @@ export class SummariseSectionCreator implements ISectionCreator {
             issueBody: issue.body,
         });
 
-        core.notice(`[Ask GPT]: ${prompt}`);
-
         const message = (
             await openaiClient.createCompletion({
                 model: inputs.model,

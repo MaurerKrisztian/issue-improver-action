@@ -7,17 +7,19 @@ export interface ISection {
 export class CommentBuilder {
     private message: string = '';
 
-    addSection(options: ISection, isDebug: boolean = false) {
-        core.notice(`Add section: `);
-        core.notice(`${options.title}:  ${options.description}`);
+    addSection(section: ISection, isDebug: boolean = false) {
+        core.notice(`Add section: ${section.title}`);
+        core.debug(`Prompt: ${section.prompt}`);
+        core.notice(`Answerer: ${section.description}`);
+        core.notice(`${section.title}:  ${section.description}`);
         this.message = `
 ${this.message} 
 
-### ${options.title}
+### ${section.title}
 
-${isDebug ? `- Prompt: ${options?.prompt}` : ''}
+${isDebug ? `- Prompt: ${section?.prompt.replace('@', '')}` : ''}
 
-${options.description}
+${section.description}
 `;
     }
 

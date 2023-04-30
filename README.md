@@ -65,22 +65,17 @@ The resulting responses will then be added as a comment to the issue.
 
 
 ```yml
-
-name: CI
+name: Improve issues
 
 on:
   issues:
     types: [opened]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
 jobs:
   gpt-comment:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
       - name: Run my GPT action
         uses: MaurerKrisztian/issue-improver-action@latest
         with:

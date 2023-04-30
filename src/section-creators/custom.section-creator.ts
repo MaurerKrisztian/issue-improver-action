@@ -26,7 +26,6 @@ export class CustomSectionCreator implements ISectionCreator {
         const issue = context.payload.issue;
 
         const askGpt = async (prompt: string) => {
-            core.notice(`[Ask GPT]: ${prompt}`);
             return (
                 await openaiClient.createCompletion({
                     model: inputs.model,

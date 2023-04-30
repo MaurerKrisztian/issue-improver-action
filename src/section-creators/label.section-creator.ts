@@ -46,8 +46,6 @@ export class LabelSectionCreator implements ISectionCreator {
             allLabel: JSON.stringify(labels),
         });
 
-        core.notice(`[Ask GPT]: ${prompt}`);
-
         const message = (
             await openaiClient.createCompletion({
                 model: inputs.model,
