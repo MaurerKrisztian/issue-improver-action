@@ -1,5 +1,8 @@
 name: 'Clarify and Improve Issues with OpenAI GPT'
 description: 'Uses the OpenAI GPT API to clarify new issues and provide suggestions for improvement.'
+branding:
+  icon: 'book-open'
+  color: 'green'
 inputs:
   api-key:
     description: 'OpenAI API key'
