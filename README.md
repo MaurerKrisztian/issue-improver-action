@@ -21,37 +21,8 @@ GitHub Action that automates issue improvement suggestions using OpenAI.
 | max_tokens                 | No       | 150                        | OpenAI max_tokens (response length)            |
 | debug-mode                | No       | false                      | Enable debug mode: Show prompts in comments |
 
-## Custom section:
 
-To create custom sections, simply create a JSON file (location is the `config-file` input) and modify the prompts and section titles as desired. Additionally, you can add new custom sections to the sections.custom array within the configuration file. This step is optional.
-
-#### Example config:
-```json
-{
-  "sections":{
-    "custom":[
-      {
-        "title":"[JOKE]",
-        "prompt":"make a joke about this: {{issueTitle}}"
-      },
-      {
-        "title":"[Poem]",
-        "prompt":"Write a short poem about this: {{issueTitle}}"
-      }
-    ],
-    "relatedIssues":{
-      "title":"[Related Issues]",
-      "prompt":"Find very similar related issue titles for \" title: {{issueTitle}} \"  from thies issues: {{openIssues}} . If none of them very similar just respond with a \"none\". Make a list of issue title what is may related in this format [title](link) - [the similarity]"
-    },
-    "summary":{
-      "title":"[Summary]",
-      "prompt":"Summarize this github issue: {{issueTitle}} {{issueBody}}"
-    }
-  }
-}
-```
 ## How does It work?
-
 
 Whenever an issue is created, this action can be triggered to gather the relevant issue data, use it to resolve the template prompts, and submit it to a GPT model.
 
@@ -69,19 +40,20 @@ name: Improve issues
 
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
 
 jobs:
   gpt-comment:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Run my GPT action
+      - name: Create useful comment with AI
         uses: MaurerKrisztian/issue-improver-action@latest
         with:
           api-key: ${{ secrets.GPT_KEY }}
-          add-summary-section: true
+          max_tokens: 400
           add-related-issues-section: true
+          add-summary-section: true
           add-label-section: true
           add-custom-section: true
 ```
@@ -92,19 +64,59 @@ Occasionally, certain GitHub issues can be overwhelming with an abundance of com
 ```yml
 on:
   issue_comment:
-    
+
 jobs:
   comment-summary:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Run my GPT action
+      - name: Comment summary
         uses: MaurerKrisztian/issue-improver-action@latest
         if: contains(github.event.comment.body, '!summarize')
         with:
           api-key: ${{ secrets.GPT_KEY }}
-          max_tokens: 150
+          max_tokens: 400
           add-comment-summary-section: true
+```
+
+## Custom section:
+All section prompts is fully customisable.
+To create custom sections / prompts, simply create a JSON file (location is the `config-file` input) and modify the prompts and section titles as desired. This will owerwite the default config (see: `src/config/default-config.ts`). 
+
+Additionally, you can add new custom sections to the `sections.custom` array within the configuration file.
+
+#### Example config:
+```json
+{
+  "sections": {
+    "custom": [
+      {
+        "title": "Joke",
+        "prompt": "make a joke about this: {{issueTitle}}"
+      },
+      {
+        "title": "Poem",
+        "prompt": "Write a short poem about this: {{issueTitle}}"
+      }
+    ],
+    "relatedIssues": {
+      "title": "Related Issues",
+      "prompt": "From the list of open issues: {{openIssues}}, identify the most relevant ones related to '{{issueTitle}}' and provide a brief description of their similarities. Just the very simmilar related issues to '{{issueTitle}}' shoud be included in the answer, if none is very similar, andwer with 'none',"
+    },
+    "summary": {
+      "title": "Summary",
+      "prompt": "Provide a concise summary of the main points and objectives presented in the issue '{{issueTitle}}' and its content: {{issueBody}}."
+    },
+    "commentSummary": {
+      "title": "Comment summary",
+      "prompt": "Review the comments in {{issueComments}} for the issue '{{issueTitle}}' and its content: {{issueBody}}. Extract the key takeaways, notable updates, and any consensus reached, and provide a concise summary of the discussion."
+    },
+    "labelSuggestion": {
+      "title": "Label Suggestion",
+      "prompt": "Analyze the issue '{{issueTitle}}' and its content: {{issueBody}}, and suggest appropriate labels from the available labels {{allLabels}} that accurately represent the topic, scope, and complexity of the issue. The response shoud only include a label and why its suitable."
+    }
+  }
+}
 ```
 
 ## Demo:

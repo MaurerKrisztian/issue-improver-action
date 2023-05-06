@@ -13,6 +13,14 @@ jobs:
         uses: MaurerKrisztian/issue-improver-action@latest
         with:
           api-key: ${{ secrets.GPT_KEY }}
-          add-summary-section: true
+          max_tokens: 400
           add-related-issues-section: true
+          add-summary-section: true
           add-label-section: true
+          add-custom-section: true
+
+#          Other defaults:
+#          model: 'text-davinci-003'
+#          max_tokens: 200
+#          debug-mode: false
+#          add-comment-summary-section: false
