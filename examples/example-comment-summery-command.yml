@@ -10,6 +10,6 @@ jobs:
         uses: MaurerKrisztian/issue-improver-action@latest
         if: contains(github.event.comment.body, '!summarize')
         with:
-          api-key: ${{ secrets.GPT_KEY }}
-          max_tokens: 400
+          openai-key: ${{ secrets.GPT_KEY }}
+          max-tokens: 400
           add-comment-summary-section: true

@@ -12,8 +12,8 @@ jobs:
       - name: Create useful comment with AI
         uses: MaurerKrisztian/issue-improver-action@latest
         with:
-          api-key: ${{ secrets.GPT_KEY }}
-          max_tokens: 400
+          openai-key: ${{ secrets.GPT_KEY }}
+          max-tokens: 400
           add-related-issues-section: true
           add-summary-section: true
           add-label-section: true
@@ -21,6 +21,6 @@ jobs:
 
 #          Other defaults:
 #          model: 'text-davinci-003'
-#          max_tokens: 200
+#          max-tokens: 200
 #          debug-mode: false
 #          add-comment-summary-section: false

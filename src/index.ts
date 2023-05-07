@@ -20,10 +20,10 @@ const sectionCreators = [
 ];
 async function run() {
     const inputs: IInputs = {
-        apiKey: core.getInput('api-key'),
+        apiKey: core.getInput('openai-key'),
         githubToken: core.getInput('github-token'),
         debug: core.getBooleanInput('debug-mode'),
-        maxTokens: Number.parseInt(core.getInput('max_tokens')),
+        maxTokens: Number.parseInt(core.getInput('max-tokens')),
         model: core.getInput('model', { required: false }),
         configFile: core.getInput('config-file'),
         addRelatedIssuesSection: core.getBooleanInput('add-related-issues-section'),

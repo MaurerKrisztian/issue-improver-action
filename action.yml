@@ -4,7 +4,7 @@ branding:
   icon: 'book-open'
   color: 'green'
 inputs:
-  api-key:
+  openai-key:
     description: 'OpenAI API key'
     required: true
   debug-mode:
@@ -20,7 +20,7 @@ inputs:
     description: 'OpenAI model'
     default: 'text-davinci-003'
     required: false
-  max_tokens:
+  max-tokens:
     description: 'OpenAI max_tokens / section (response length)'
     default: 150
     type: number

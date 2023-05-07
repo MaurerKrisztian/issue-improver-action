@@ -10,7 +10,7 @@ GitHub Action that automates issue improvement suggestions using OpenAI.
 
 | Input                      | Required | Default                    | Info                                           |
 |----------------------------|----------|----------------------------|------------------------------------------------|
-| api-key                    | Yes      | N/A                        | OpenAI API key                                 |
+| openai-key                   | Yes      | N/A                        | OpenAI API key                                 |
 | config-file                | No       | issue-improver-config.json | Configuration file                             |
 | add-related-issues-section | No       | false                      | Create a related issues section.               |
 | add-summary-section        | No       | false                       | Create a summary section.                      |
@@ -18,29 +18,55 @@ GitHub Action that automates issue improvement suggestions using OpenAI.
 | add-custom-section         | No       |   false                         | Create custom sections                         |
 | add-label-section          | No       |  false                          | Create label suggesion                         |
 | model                      | No       | 'text-davinci-003'         | OpenAI model                                   |
-| max_tokens                 | No       | 150                        | OpenAI max_tokens (response length)            |
+| max-tokens                 | No       | 150                        | OpenAI max_tokens (response length)            |
 | debug-mode                | No       | false                      | Enable debug mode: Show prompts in comments |
 
 
 ## How does It work?
 
-Whenever an issue is created, this action can be triggered to gather the relevant issue data, use it to resolve the template prompts, and submit it to a GPT model.
+This action can be triggered to gather the relevant issue data, make usefully comments with GPT model.
 
-E.g
-- Find related issues among open issues.
-- Summarize issues.
-
+One of the main building blocs is the "sections" every section has at lease a title and prompt parameter,
+you can specify which section do you need at the action workflow yml. When the action runs, resolves all selected sections prompts with Openapi GPT model.
+The prompts has default values (see: `src/config/default-config.ts`) but you can fully customize all of them and create custom sections.
 The resulting responses will then be added as a comment to the issue.
 
-## Action example:
+## Built in sections:
 
+### related-issues-section
+Find related issues among open issues.
+
+I have noticed that many open-source projects have few maintainers and a lot of issues.
+Some issues are duplicates, while others are related to each other. These details are useful to the maintainer.
+With the assistance of AI, this action will create a "related issues" section in the comment.
+
+### label-section
+Find relevant labels for the issue.
+
+The action will get all the labels and descriptions and issue data, based on that create a label suggession.
+
+### summary-section
+Summarize the issue text.
+
+### custom-section
+add custom sections to the `sections.custom` array within the configuration file.
+
+### comment-summary-section
+Summarize all comment at the current issue, make progress report etc.
+
+Occasionally, certain GitHub issues can be overwhelming with an abundance of comments, making it difficult to comprehend the situation. To address this, I have developed a comment summary feature.
+
+
+## Action example:
+This action will trigger when new issue is opened,
+and creates a comment including: related-issues-section, summary-section, label-section, custom-section
 
 ```yml
 name: Improve issues
 
 on:
   issues:
-    types: [opened, edited]
+    types: [opened]
 
 jobs:
   gpt-comment:
@@ -50,8 +76,8 @@ jobs:
       - name: Create useful comment with AI
         uses: MaurerKrisztian/issue-improver-action@latest
         with:
-          api-key: ${{ secrets.GPT_KEY }}
-          max_tokens: 400
+          openai-key: ${{ secrets.GPT_KEY }}
+          max-tokens: 400
           add-related-issues-section: true
           add-summary-section: true
           add-label-section: true
@@ -59,7 +85,7 @@ jobs:
 ```
 
 ## Comment Summary
-Occasionally, certain GitHub issues can be overwhelming with an abundance of comments, making it difficult to comprehend the situation. To address this, I have developed a comment summary feature. The YAML code below demonstrates how to activate this summary using the "!summarize" command.
+The YAML code below demonstrates how to activate comment summary, progress report, using the "!summarize" command.
 
 ```yml
 on:
@@ -74,8 +100,8 @@ jobs:
         uses: MaurerKrisztian/issue-improver-action@latest
         if: contains(github.event.comment.body, '!summarize')
         with:
-          api-key: ${{ secrets.GPT_KEY }}
-          max_tokens: 400
+          openai-key: ${{ secrets.GPT_KEY }}
+          max-tokens: 400
           add-comment-summary-section: true
 ```
 
