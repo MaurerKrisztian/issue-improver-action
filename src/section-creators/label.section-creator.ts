@@ -47,7 +47,7 @@ export class LabelSectionCreator implements ISectionCreator {
         const prompt = Utils.resolveTemplate(config?.sections?.labelSuggestion?.prompt, {
             issueTitle: issue.title,
             issueBody: issue.body,
-            allLabel: JSON.stringify(labels),
+            allLabels: JSON.stringify(labels),
         });
 
         const message = (
