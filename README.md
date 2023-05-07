@@ -31,6 +31,8 @@ you can specify which section do you need at the action workflow yml. When the a
 The prompts has default values (see: `src/config/default-config.ts`) but you can fully customize all of them and create custom sections.
 The resulting responses will then be added as a comment to the issue.
 
+## Try it out here: [Demo repository](https://github.com/MaurerKrisztian/issue-improver-action-demo)
+
 ## Built in sections:
 
 ### related-issues-section
