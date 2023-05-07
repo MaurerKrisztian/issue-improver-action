@@ -148,16 +148,5 @@ Additionally, you can add new custom sections to the `sections.custom` array wit
 ```
 
 ## Demo:
-
-
-![image](https://user-images.githubusercontent.com/48491140/235365172-05f4a8ec-04bc-4d77-96d6-cb71237e0fc6.png)
-![image](https://user-images.githubusercontent.com/48491140/235365094-ac4dfa90-36fe-45b1-9ed9-a5d3daa7160a.png)
-
-
-## Comment summary demo:
-
-![image](https://user-images.githubusercontent.com/48491140/235367263-58f9fccb-8053-4a38-809d-d1b01e09b18f.png)
-![image](https://user-images.githubusercontent.com/48491140/235367300-18042502-bfcc-4b74-8354-ad4c65278bdb.png)
-![image](https://user-images.githubusercontent.com/48491140/235367317-13c759d5-a5c0-4b0e-bf63-78ef581e5ed3.png)
-
+![Unable to submit form on mobile devices](https://user-images.githubusercontent.com/48491140/236701094-1d46c2bc-1d6c-4335-a0b9-27daf0688841.png)
 
