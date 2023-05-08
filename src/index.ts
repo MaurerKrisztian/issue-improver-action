@@ -67,8 +67,14 @@ async function run() {
     };
 
     core.notice(`Try to create a comment...`);
-    await createComment(commentBuilder.getMessage());
-    core.notice('Comment created successfully');
+    core.notice('[Final Comment]: \n\n ' + commentBuilder.getMessage());
+
+    if (inputs.debug == false) {
+        await createComment(commentBuilder.getMessage());
+        core.notice('Comment created successfully');
+    } else {
+        core.notice('Comment is not created because of debug mode.');
+    }
 }
 
 const runner = new ActionRunner({ name: 'GPT issue improver', cb: run });

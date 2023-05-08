@@ -17,8 +17,6 @@ ${this.message}
 
 ### ${section.title}
 
-${isDebug ? `- Prompt: ${section?.prompt.replace('@', '')}` : ''}
-
 ${section.description}
 `;
     }

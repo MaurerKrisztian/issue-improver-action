@@ -2,24 +2,22 @@
 
 ![Maurer Krisztian](https://user-images.githubusercontent.com/48491140/234571713-eb6a3708-40b5-4b81-903d-7c4d0b16ccea.png)
 
-
-
 GitHub Action that automates issue improvement suggestions using OpenAI.
 
 ## Inputs:
 
-| Input                      | Required | Default                    | Info                                           |
-|----------------------------|----------|----------------------------|------------------------------------------------|
-| openai-key                   | Yes      | N/A                        | OpenAI API key                                 |
-| config-file                | No       | issue-improver-config.json | Configuration file                             |
-| add-related-issues-section | No       | false                      | Create a related issues section.               |
-| add-summary-section        | No       | false                       | Create a summary section.                      |
-| add-comment-summary-section        | No       |    false                        | Create comment summary                         |
-| add-custom-section         | No       |   false                         | Create custom sections                         |
-| add-label-section          | No       |  false                          | Create label suggesion                         |
-| model                      | No       | 'text-davinci-003'         | OpenAI model                                   |
-| max-tokens                 | No       | 150                        | OpenAI max_tokens (response length)            |
-| debug-mode                | No       | false                      | Enable debug mode: Show prompts in comments |
+| Input                      | Required | Default                    | Info                                    |
+|----------------------------|----------|----------------------------|-----------------------------------------|
+| openai-key                   | Yes      | N/A                        | OpenAI API key                          |
+| config-file                | No       | issue-improver-config.json | Configuration file                      |
+| add-related-issues-section | No       | false                      | Create a related issues section.        |
+| add-summary-section        | No       | false                       | Create a summary section.               |
+| add-comment-summary-section        | No       |    false                        | Create comment summary                  |
+| add-custom-section         | No       |   false                         | Create custom sections                  |
+| add-label-section          | No       |  false                          | Create label suggesion                  |
+| model                      | No       | 'text-davinci-003'         | OpenAI model                            |
+| max-tokens                 | No       | 150                        | OpenAI max_tokens (response length)     |
+| debug-mode                | No       | false                      | Enable debug mode: Don't create comment |
 
 
 ## How does It work?
@@ -58,7 +56,10 @@ Summarize all comment at the current issue, make progress report etc.
 
 Occasionally, certain GitHub issues can be overwhelming with an abundance of comments, making it difficult to comprehend the situation. To address this, I have developed a comment summary feature.
 
+## debug mode
+If you turn on debug mode, it will do the following: resolve prompts, give you more detailed logs of what's happening, and not create comment.. To enable this, set the `debug-mode` input to `true`.
 
+If you want to test an action without making changes to any issues, it's useful to turn on debug mode. This will allow you to view the logs and see what comment would be created if debug mode was turned off. Once you're satisfied with the results, you can turn off debug mode.
 ## Action example:
 This action will trigger when new issue is opened,
 and creates a comment including: related-issues-section, summary-section, label-section, custom-section
