@@ -3,13 +3,13 @@ import { ISectionCreator } from '../interfaces/section-creator.interface';
 import { ISection } from '../services/comment-builder';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
-import { Inject, Injectable } from 'type-chef-di';
+import { Injectable } from 'type-chef-di';
 import { PlaceholderResolver } from '../services/placeholder-resolver';
 import { IOctokit } from '../placeholder-providers/issue-comments.placeholder';
 
 @Injectable()
 export class CustomSectionCreator implements ISectionCreator {
-    constructor(@Inject() private readonly placeholderResolver: PlaceholderResolver) {}
+    constructor(readonly placeholderResolver: PlaceholderResolver) {}
     isAddSection(inputs: IInputs, config?: Partial<IConfig>): boolean {
         return inputs.addCustomSection.length > 0 && config?.sections?.custom?.length > 0;
     }
