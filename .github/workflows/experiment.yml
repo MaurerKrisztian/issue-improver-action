@@ -1,0 +1,30 @@
+name: Package and Push to latest branch
+on:
+  push:
+    branches:
+      - rewrite
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout rewrite branch
+        uses: actions/checkout@v3
+        with:
+          ref: rewrite
+          
+      - name: Install dependencies
+        run: npm ci
+      - name: Run test
+        run: npm run test
+      - name: build
+        run: npm run package
+      - name: Configure git
+        run: |
+          git config --global user.name "Github bot"
+          git config --global user.email "email@mail.com"
+          rm .gitignore
+          git checkout -b experiment
+          git add -A
+          git commit -a -m "build: latest build"
+          git push -u origin experiment --force

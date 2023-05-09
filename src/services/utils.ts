@@ -12,4 +12,18 @@ export class Utils {
             );
         });
     }
+
+    static getPlaceholders(text: string): string[] {
+        const regex = /{{(.*?)}}/g;
+        const matches = text.match(regex);
+
+        if (!matches) {
+            return [];
+        }
+
+        return matches.map((match) => {
+            const placeholder = match.slice(2, -2).trim();
+            return placeholder;
+        });
+    }
 }

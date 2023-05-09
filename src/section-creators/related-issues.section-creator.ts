@@ -6,10 +6,11 @@ import { context } from '@actions/github';
 import { Utils } from '../services/utils';
 import { ISectionCreator } from '../interfaces/section-creator.interface';
 import { ISection } from '../services/comment-builder';
-import * as core from '@actions/core';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
+import { Injectable } from 'type-chef-di';
 
+@Injectable()
 export class RelatedIssuesSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
         return (

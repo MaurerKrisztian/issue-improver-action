@@ -5,11 +5,12 @@ import { PaginateInterface } from '@octokit/plugin-paginate-rest';
 import { context } from '@actions/github';
 import { ISection } from '../services/comment-builder';
 import { ISectionCreator } from '../interfaces/section-creator.interface';
-import * as core from '@actions/core';
 import { Utils } from '../services/utils';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
+import { Injectable } from 'type-chef-di';
 
+@Injectable()
 export class SummariseSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
         return inputs.addSummarySection && !!config.sections?.summary?.prompt && !!config.sections?.summary?.title;

@@ -3,21 +3,25 @@ import * as github from '@actions/github';
 import { ActionRunner } from './services/action-runner';
 import { Configuration, OpenAIApi } from 'openai';
 import { CommentBuilder } from './services/comment-builder';
+import { getConfig } from './config/config-reader';
+import { IInputs } from './interfaces/inputs.interface';
+import { Container } from 'type-chef-di';
 import { CustomSectionCreator } from './section-creators/custom.section-creator';
 import { RelatedIssuesSectionCreator } from './section-creators/related-issues.section-creator';
 import { SummariseSectionCreator } from './section-creators/summarise.section-creator';
-import { getConfig } from './config/config-reader';
-import { IInputs } from './interfaces/inputs.interface';
 import { LabelSectionCreator } from './section-creators/label.section-creator';
 import { SummariseCommentsSectionCreator } from './section-creators/summarise-comments.section-creator';
 
+export const container = new Container({ enableAutoCreate: true });
+
 const sectionCreators = [
-    new CustomSectionCreator(),
-    new RelatedIssuesSectionCreator(),
-    new SummariseSectionCreator(),
-    new LabelSectionCreator(),
-    new SummariseCommentsSectionCreator(),
+    CustomSectionCreator,
+    RelatedIssuesSectionCreator,
+    SummariseSectionCreator,
+    LabelSectionCreator,
+    SummariseCommentsSectionCreator,
 ];
+
 async function run() {
     const inputs: IInputs = {
         apiKey: core.getInput('openai-key'),
@@ -42,13 +46,18 @@ async function run() {
     );
 
     const octokit = await github.getOctokit(inputs.githubToken);
+
+    container.register('octokit', octokit);
+
     const context = github.context;
     const issue = context.payload.issue;
     core.notice(`Is debug mode: ${inputs.debug ? 'true' : 'false'}`);
     core.notice(JSON.stringify(issue));
 
     const commentBuilder = new CommentBuilder();
-    for (const sectionCreator of sectionCreators) {
+
+    for (const sectionCreatorClass of sectionCreators) {
+        const sectionCreator = await container.resolveByType(sectionCreatorClass);
         if (sectionCreator.isAddSection(inputs, config)) {
             commentBuilder.addSections(
                 await sectionCreator.createSection(inputs, openaiClient, octokit, config),

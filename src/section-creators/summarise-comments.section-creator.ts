@@ -9,7 +9,9 @@ import { Utils } from '../services/utils';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
 import { IIssueComment } from '../interfaces/issue-comment.interface';
+import { Injectable } from 'type-chef-di';
 
+@Injectable()
 export class SummariseCommentsSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
         return (
