@@ -9,6 +9,7 @@ import { Utils } from '../services/utils';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
 import { IIssueComment } from '../interfaces/issue-comment.interface';
+import { encode } from 'gpt-tokenizer';
 
 export class SummariseCommentsSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
@@ -18,6 +19,29 @@ export class SummariseCommentsSectionCreator implements ISectionCreator {
             !!config.sections.commentSummary.title
         );
     }
+    
+    async generatePromptChunks(prompt: string, maxTokens: number) {
+        const promptTokens = encode(prompt)
+        const chunks = [];
+
+        let currentChunk = '';
+
+        for (const token of promptTokens) {
+            if ((currentChunk + ' ' + token).length <= maxTokens) {
+                currentChunk += ' ' + token;
+            } else {
+                chunks.push(currentChunk.trim());
+                currentChunk = token;
+            }
+        }
+
+        if (currentChunk) {
+            chunks.push(currentChunk.trim());
+        }
+
+        return chunks;
+    }
+
     async createSection(
         inputs: IInputs,
         openaiClient: OpenAIApi,
@@ -40,7 +64,7 @@ export class SummariseCommentsSectionCreator implements ISectionCreator {
             .map((comment) => {
                 return { body: comment?.body, created_at: comment?.created_at, author: comment?.user?.login };
             })
-            .filter((comment) => comment.author !== 'github-actions[bot]'); // todo: do we need to filter out?
+            .filter((comment) => comment.author !== 'github-actions[bot]');
 
         const prompt = Utils.resolveTemplate(config?.sections?.commentSummary?.prompt, {
             issueTitle: issue.title,
@@ -48,13 +72,29 @@ export class SummariseCommentsSectionCreator implements ISectionCreator {
             issueComments: JSON.stringify(issueComments),
         });
 
+        const promptChunks = await this.generatePromptChunks(prompt, inputs.maxTokens / 2);
+        const messageParts = ['Merge all the summarization data into one message. Each data chunk is separated by ---'];
+
+        for (const chunk of promptChunks) {
+            const result = (
+                await openaiClient.createCompletion({
+                    model: inputs.model,
+                    prompt: chunk,
+                    max_tokens: inputs.maxTokens,
+                })
+            ).data.choices[0].text;
+
+            messageParts.push(result);
+        }
+
         const message = (
             await openaiClient.createCompletion({
                 model: inputs.model,
-                prompt: prompt,
+                prompt: messageParts.join('---'),
                 max_tokens: inputs.maxTokens,
             })
         ).data.choices[0].text;
+
         return [
             {
                 prompt: prompt,
@@ -64,3 +104,4 @@ export class SummariseCommentsSectionCreator implements ISectionCreator {
         ];
     }
 }
+

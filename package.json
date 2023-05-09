@@ -22,6 +22,7 @@
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
+    "gpt-tokenizer": "^1.0.4",
     "openai": "^3.2.1"
   },
   "devDependencies": {

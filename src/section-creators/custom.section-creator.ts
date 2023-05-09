@@ -36,10 +36,11 @@ export class CustomSectionCreator implements ISectionCreator {
 
         const resultSections: ISection[] = [];
         for (const sectionConfig of config.sections.custom) {
-            if (
-                !inputs.addCustomSection.includes(sectionConfig?.id || sectionConfig.title) &&
-                inputs.addCustomSection[0] !== '*'
-            ) {
+            const isIncludeSection =
+                inputs.addCustomSection.includes(sectionConfig?.id || sectionConfig.title) ||
+                inputs.addCustomSection[0] == '*';
+
+            if (!isIncludeSection) {
                 continue;
             }
             const resolvedPrompt = Utils.resolveTemplate(sectionConfig.prompt, {
