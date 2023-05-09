@@ -29,7 +29,7 @@ async function run() {
         addRelatedIssuesSection: core.getBooleanInput('add-related-issues-section'),
         addSummarySection: core.getBooleanInput('add-summary-section'),
         addCommentSummarySection: core.getBooleanInput('add-comment-summary-section'),
-        addCustomSection: core.getBooleanInput('add-custom-section'),
+        addCustomSection: core.getInput('add-custom-section')?.split(',') || [],
         addLabelSection: core.getBooleanInput('add-label-section'),
     };
 

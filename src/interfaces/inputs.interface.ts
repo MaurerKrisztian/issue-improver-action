@@ -4,7 +4,7 @@ export interface IInputs {
     model: string;
     addRelatedIssuesSection: boolean;
     addSummarySection: boolean;
-    addCustomSection: boolean;
+    addCustomSection: string[];
     addLabelSection: boolean;
     addCommentSummarySection: boolean;
     maxTokens: number;

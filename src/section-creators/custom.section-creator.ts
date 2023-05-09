@@ -8,11 +8,10 @@ import { ISectionCreator } from '../interfaces/section-creator.interface';
 import { ISection } from '../services/comment-builder';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
-import * as core from '@actions/core';
 
 export class CustomSectionCreator implements ISectionCreator {
     isAddSection(inputs: IInputs, config?: Partial<IConfig>): boolean {
-        return inputs.addCustomSection && config?.sections?.custom?.length > 0;
+        return inputs.addCustomSection.length > 0 && config?.sections?.custom?.length > 0;
     }
     async createSection(
         inputs: IInputs,
@@ -37,6 +36,12 @@ export class CustomSectionCreator implements ISectionCreator {
 
         const resultSections: ISection[] = [];
         for (const sectionConfig of config.sections.custom) {
+            if (
+                !inputs.addCustomSection.includes(sectionConfig?.id || sectionConfig.title) &&
+                inputs.addCustomSection[0] !== '*'
+            ) {
+                continue;
+            }
             const resolvedPrompt = Utils.resolveTemplate(sectionConfig.prompt, {
                 issueBody: issue?.body,
                 issueTitle: issue?.title,

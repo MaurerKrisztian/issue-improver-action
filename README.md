@@ -6,18 +6,18 @@ GitHub Action that automates issue improvement suggestions using OpenAI.
 
 ## Inputs:
 
-| Input                      | Required | Default                    | Info                                    |
-|----------------------------|----------|----------------------------|-----------------------------------------|
-| openai-key                   | Yes      | N/A                        | OpenAI API key                          |
-| config-file                | No       | issue-improver-config.json | Configuration file                      |
-| add-related-issues-section | No       | false                      | Create a related issues section.        |
-| add-summary-section        | No       | false                       | Create a summary section.               |
-| add-comment-summary-section        | No       |    false                        | Create comment summary                  |
-| add-custom-section         | No       |   false                         | Create custom sections                  |
-| add-label-section          | No       |  false                          | Create label suggesion                  |
-| model                      | No       | 'text-davinci-003'         | OpenAI model                            |
-| max-tokens                 | No       | 150                        | OpenAI max_tokens (response length)     |
-| debug-mode                | No       | false                      | Enable debug mode: Don't create comment |
+| Input                      | Required | Default                    | Info                                                                   |
+|----------------------------|----------|----------------------------|------------------------------------------------------------------------|
+| openai-key                   | Yes      | N/A                        | OpenAI API key                                                         |
+| config-file                | No       | issue-improver-config.json | Configuration file                                                     |
+| add-related-issues-section | No       | false                      | Create a related issues section.                                       |
+| add-summary-section        | No       | false                       | Create a summary section.                                              |
+| add-comment-summary-section        | No       |    false                      | Create comment summary                                                 |
+| add-custom-section         | No       |    N/A                        | custom section title/id comma separated string. "*" means include all. |
+| add-label-section          | No       |  false                        | Create label suggesion                                                 |
+| model                      | No       | 'text-davinci-003'         | OpenAI model                                                           |
+| max-tokens                 | No       | 150                        | OpenAI max_tokens (response length)                                    |
+| debug-mode                | No       | false                      | Enable debug mode: Don't create comment                                |
 
 
 ## How does It work?
@@ -84,7 +84,7 @@ jobs:
           add-related-issues-section: true
           add-summary-section: true
           add-label-section: true
-          add-custom-section: true
+          add-custom-section: "my_custom_section1,my_custom_section2"
 ```
 
 ## Comment Summary

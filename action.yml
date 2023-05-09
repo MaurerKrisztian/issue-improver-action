@@ -41,9 +41,7 @@ inputs:
     type: boolean
     required: false
   add-custom-section:
-    description: 'Add custom sections'
-    default: false
-    type: boolean
+    description: 'Custom sections comma-separated list of ids/titles'
     required: false
   add-comment-summary-section:
     description: 'Add comment summary'
