@@ -1,7 +1,7 @@
 import { IPlaceholderProvider } from './interfaces/placeholder-provider.interface';
 import { context } from '@actions/github';
 import { Inject, Injectable } from 'type-chef-di';
-import { IOctokit } from './issue-comments.placeholder';
+import { IOctokit } from '../interfaces/octokit.interface';
 
 @Injectable()
 export class OpenIssuesPlaceholder implements IPlaceholderProvider {

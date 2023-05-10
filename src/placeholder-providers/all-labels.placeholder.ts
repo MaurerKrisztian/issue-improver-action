@@ -3,7 +3,7 @@ import { Inject, Injectable } from 'type-chef-di';
 import { ILabel } from '../interfaces/labels.interface';
 import { context } from '@actions/github';
 import * as core from '@actions/core';
-import { IOctokit } from './issue-comments.placeholder';
+import { IOctokit } from '../interfaces/octokit.interface';
 @Injectable()
 export class AllLabelsPlaceholder implements IPlaceholderProvider {
     constructor(@Inject('octokit') private readonly octokit: IOctokit) {}

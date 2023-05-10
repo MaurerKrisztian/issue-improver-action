@@ -2,14 +2,8 @@ import { IPlaceholderProvider } from './interfaces/placeholder-provider.interfac
 import { context } from '@actions/github';
 import { IIssueComment } from '../interfaces/issue-comment.interface';
 import { Inject, Injectable } from 'type-chef-di';
-import { Octokit } from '@octokit/core';
-import { Api } from '@octokit/plugin-rest-endpoint-methods/dist-types/types';
-import { PaginateInterface } from '@octokit/plugin-paginate-rest';
+import { IOctokit } from '../interfaces/octokit.interface';
 
-export type IOctokit = Octokit &
-    Api & {
-        paginate: PaginateInterface;
-    };
 @Injectable()
 export class IssueCommentsPlaceholder implements IPlaceholderProvider {
     constructor(@Inject('octokit') private readonly octokit: IOctokit) {}

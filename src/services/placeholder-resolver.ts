@@ -1,5 +1,5 @@
 import { Utils } from './utils';
-import { placeholderMap } from '../placeholder-providers/placeholders';
+import { placeholderMap } from '../placeholder-providers/placeholder-map';
 import * as core from '@actions/core';
 import { Injectable } from 'type-chef-di';
 

@@ -5,7 +5,7 @@ import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
 import { Injectable } from 'type-chef-di';
 import { PlaceholderResolver } from '../services/placeholder-resolver';
-import { IOctokit } from '../placeholder-providers/issue-comments.placeholder';
+import { IOctokit } from '../interfaces/octokit.interface';
 
 @Injectable()
 export class CustomSectionCreator implements ISectionCreator {

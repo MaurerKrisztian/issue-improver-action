@@ -4,8 +4,8 @@ import { ISection } from '../services/comment-builder';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
 import { Injectable } from 'type-chef-di';
-import { IOctokit } from '../placeholder-providers/issue-comments.placeholder';
 import { PlaceholderResolver } from '../services/placeholder-resolver';
+import { IOctokit } from '../interfaces/octokit.interface';
 
 @Injectable()
 export class RelatedIssuesSectionCreator implements ISectionCreator {
