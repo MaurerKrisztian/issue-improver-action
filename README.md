@@ -147,6 +147,18 @@ Additionally, you can add new custom sections to the `sections.custom` array wit
   }
 }
 ```
+## Available placeholders:
+
+| Name           | Description                            | 
+|----------------|----------------------------------------|
+| `{{issueTitle}}` | The issue title                        | 
+| `{{issueBody}}`           | The issue body                         |
+| `{{issueComments}}`         | All issue comment                      |
+| `{{issueAuthor}}`           | Issue creator                          |
+| `{{allLabels}}`           | All available labels in the repository |
+| `{{openIssues}}`           | All open issues in the repository      |
+
+If you need a different placeholder, open an issue.
 
 ## Demo:
 ![Unable to submit form on mobile devices](https://user-images.githubusercontent.com/48491140/236701094-1d46c2bc-1d6c-4335-a0b9-27daf0688841.png)

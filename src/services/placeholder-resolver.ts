@@ -1,8 +1,6 @@
 import { Utils } from './utils';
-import { placeholderProviders } from '../placeholder-providers/placeholders';
+import { placeholderMap } from '../placeholder-providers/placeholders';
 import * as core from '@actions/core';
-import { container } from '../index';
-import { IPlaceholderProvider } from '../placeholder-providers/interfaces/placeholder-provider.interface';
 import { Injectable } from 'type-chef-di';
 
 @Injectable({ instantiation: 'singleton' })
@@ -16,13 +14,12 @@ export class PlaceholderResolver {
                 templateContext[placeholderKey] = this.cache.get(placeholderKey);
             }
 
-            const placeholderClass = placeholderProviders[placeholderKey];
-            if (placeholderClass == undefined) {
+            if (placeholderMap[placeholderKey] == undefined) {
                 core.notice(`Cant resolve: ${placeholderKey} placeholder.`);
                 continue;
             }
-            const placeholderProvider = await container.resolveByType<IPlaceholderProvider>(placeholderClass);
-            const resultText = await placeholderProvider.provideValue();
+
+            const resultText = await placeholderMap[placeholderKey]();
             this.cache.set(placeholderKey, resultText);
             templateContext[placeholderKey] = resultText;
         }
