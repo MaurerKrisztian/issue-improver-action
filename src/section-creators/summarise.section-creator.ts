@@ -1,35 +1,25 @@
 import { OpenAIApi } from 'openai';
-import { Octokit } from '@octokit/core';
-import { Api } from '@octokit/plugin-rest-endpoint-methods/dist-types/types';
-import { PaginateInterface } from '@octokit/plugin-paginate-rest';
-import { context } from '@actions/github';
 import { ISection } from '../services/comment-builder';
 import { ISectionCreator } from '../interfaces/section-creator.interface';
-import { Utils } from '../services/utils';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
 import { Injectable } from 'type-chef-di';
+import { IOctokit } from '../placeholder-providers/issue-comments.placeholder';
+import { PlaceholderResolver } from '../services/placeholder-resolver';
 
 @Injectable()
 export class SummariseSectionCreator implements ISectionCreator {
+    constructor(private readonly placeholderResolver: PlaceholderResolver) {}
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
         return inputs.addSummarySection && !!config.sections?.summary?.prompt && !!config.sections?.summary?.title;
     }
     async createSection(
         inputs: IInputs,
         openaiClient: OpenAIApi,
-        octokit: Octokit &
-            Api & {
-                paginate: PaginateInterface;
-            },
+        octokit: IOctokit,
         config: Partial<IConfig>,
     ): Promise<ISection[]> {
-        const issue = context.payload.issue;
-
-        const prompt = Utils.resolveTemplate(config?.sections?.summary?.prompt, {
-            issueTitle: issue.title,
-            issueBody: issue.body,
-        });
+        const prompt = await this.placeholderResolver.resolve(config?.sections?.summary?.prompt);
 
         const message = (
             await openaiClient.createCompletion({

@@ -9,7 +9,7 @@ import { IOctokit } from '../placeholder-providers/issue-comments.placeholder';
 
 @Injectable()
 export class CustomSectionCreator implements ISectionCreator {
-    constructor(readonly placeholderResolver: PlaceholderResolver) {}
+    constructor(private readonly placeholderResolver: PlaceholderResolver) {}
     isAddSection(inputs: IInputs, config?: Partial<IConfig>): boolean {
         return inputs.addCustomSection.length > 0 && config?.sections?.custom?.length > 0;
     }

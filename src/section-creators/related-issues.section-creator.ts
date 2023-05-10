@@ -1,17 +1,15 @@
 import { OpenAIApi } from 'openai';
-import { Octokit } from '@octokit/core';
-import { Api } from '@octokit/plugin-rest-endpoint-methods/dist-types/types';
-import { PaginateInterface } from '@octokit/plugin-paginate-rest';
-import { context } from '@actions/github';
-import { Utils } from '../services/utils';
 import { ISectionCreator } from '../interfaces/section-creator.interface';
 import { ISection } from '../services/comment-builder';
 import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
 import { Injectable } from 'type-chef-di';
+import { IOctokit } from '../placeholder-providers/issue-comments.placeholder';
+import { PlaceholderResolver } from '../services/placeholder-resolver';
 
 @Injectable()
 export class RelatedIssuesSectionCreator implements ISectionCreator {
+    constructor(private readonly placeholderResolver: PlaceholderResolver) {}
     isAddSection(inputs: IInputs, config: Partial<IConfig>) {
         return (
             inputs.addRelatedIssuesSection &&
@@ -22,35 +20,10 @@ export class RelatedIssuesSectionCreator implements ISectionCreator {
     async createSection(
         inputs: IInputs,
         openaiClient: OpenAIApi,
-        octokit: Octokit &
-            Api & {
-                paginate: PaginateInterface;
-            },
+        octokit: IOctokit,
         config: Partial<IConfig>,
     ): Promise<ISection[]> {
-        const issue = context.payload.issue;
-
-        const issuesResponse = await octokit.rest.issues.listForRepo({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            state: 'open',
-        });
-
-        const openIssues = issuesResponse.data
-            .map((issue) => ({
-                number: issue.number,
-                title: issue.title,
-                link: issue.html_url,
-            }))
-            .filter((openIssue) => openIssue.number != issue.number);
-
-        const resolvedTemple = Utils.resolveTemplate(config.sections.relatedIssues.prompt, {
-            issueBody: issue?.body,
-            issueTitle: issue?.title,
-            author: issue.user.login,
-            openIssues: JSON.stringify(openIssues),
-        });
-
+        const resolvedTemple = await this.placeholderResolver.resolve(config.sections.relatedIssues.prompt);
         const relatedIssuesResponse = await openaiClient.createCompletion({
             model: inputs.model,
             prompt: resolvedTemple,
