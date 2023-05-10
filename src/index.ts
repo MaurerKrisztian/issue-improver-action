@@ -5,16 +5,17 @@ import { Configuration, OpenAIApi } from 'openai';
 import { CommentBuilder } from './services/comment-builder';
 import { getConfig } from './config/config-reader';
 import { IInputs } from './interfaces/inputs.interface';
-import { Container } from 'type-chef-di';
+import { Container, Type } from 'type-chef-di';
 import { CustomSectionCreator } from './section-creators/custom.section-creator';
 import { RelatedIssuesSectionCreator } from './section-creators/related-issues.section-creator';
 import { SummariseSectionCreator } from './section-creators/summarise.section-creator';
 import { LabelSectionCreator } from './section-creators/label.section-creator';
 import { SummariseCommentsSectionCreator } from './section-creators/summarise-comments.section-creator';
+import { ISectionCreator } from './interfaces/section-creator.interface';
 
 export const container = new Container({ enableAutoCreate: true });
 
-const sectionCreators = [
+const sectionCreators: Type<ISectionCreator>[] = [
     CustomSectionCreator,
     RelatedIssuesSectionCreator,
     SummariseSectionCreator,
