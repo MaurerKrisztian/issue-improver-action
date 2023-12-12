@@ -35,11 +35,11 @@ export class Utils {
             await openaiClient.chat.completions.create({
                 model: inputs.model,
                 messages: [
-                    { role: 'system', content: config.systemMessage },
+                    { role: 'system', content: config.systemMessage || "You are an experienced software developer tasked with analyzing GitHub issues." },
                     { role: 'user', content: prompt },
                 ],
                 max_tokens: inputs.maxTokens,
             })
         ).choices[0].message?.content;
-    };
+    }
 }

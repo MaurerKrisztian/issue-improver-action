@@ -18,7 +18,7 @@ inputs:
     default: 'issue-improver-config.json'
   model:
     description: 'OpenAI model'
-    default: 'text-davinci-003'
+    default: 'gpt-4'
     required: false
   max-tokens:
     description: 'OpenAI max_tokens / section (response length)'
