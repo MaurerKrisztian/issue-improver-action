@@ -1,4 +1,4 @@
-import { OpenAIApi } from 'openai';
+import { OpenAI } from 'openai';
 import { ISectionCreator } from '../interfaces/section-creator.interface';
 import { ISection } from '../services/comment-builder';
 import { IConfig } from '../interfaces/config.interface';
@@ -6,28 +6,23 @@ import { IInputs } from '../interfaces/inputs.interface';
 import { Injectable } from 'type-chef-di';
 import { PlaceholderResolver } from '../services/placeholder-resolver';
 import { IOctokit } from '../interfaces/octokit.interface';
+import { Utils } from '../services/utils';
 
 @Injectable()
 export class CustomSectionCreator implements ISectionCreator {
-    constructor(private readonly placeholderResolver: PlaceholderResolver) {}
+    constructor(private readonly placeholderResolver: PlaceholderResolver) {
+    }
+
     isAddSection(inputs: IInputs, config?: Partial<IConfig>): boolean {
         return inputs.addCustomSection.length > 0 && config?.sections?.custom?.length > 0;
     }
+
     async createSection(
         inputs: IInputs,
-        openaiClient: OpenAIApi,
+        openaiClient: OpenAI,
         octokit: IOctokit,
         config: Partial<IConfig>,
     ): Promise<ISection[]> {
-        const askGpt = async (prompt: string) => {
-            return (
-                await openaiClient.createCompletion({
-                    model: inputs.model,
-                    prompt: prompt,
-                    max_tokens: inputs.maxTokens,
-                })
-            ).data.choices[0].text;
-        };
 
         const resultSections: ISection[] = [];
         for (const sectionConfig of config.sections.custom) {
@@ -39,7 +34,7 @@ export class CustomSectionCreator implements ISectionCreator {
                 continue;
             }
             const resolvedPrompt = await this.placeholderResolver.resolve(sectionConfig.prompt);
-            const message = await askGpt(resolvedPrompt);
+            const message = await Utils.askGpt(openaiClient, resolvedPrompt, config, inputs);
             resultSections.push({ title: sectionConfig.title, description: message, prompt: resolvedPrompt });
         }
 

@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { ActionRunner } from './services/action-runner';
-import { Configuration, OpenAIApi } from 'openai';
+import { OpenAI } from 'openai';
 import { CommentBuilder } from './services/comment-builder';
 import { getConfig } from './config/config-reader';
 import { IInputs } from './interfaces/inputs.interface';
@@ -40,10 +40,9 @@ async function run() {
 
     const config = await getConfig(inputs.configFile);
 
-    const openaiClient = new OpenAIApi(
-        new Configuration({
+    const openaiClient = new OpenAI({
             apiKey: inputs.apiKey,
-        }),
+        }
     );
 
     const octokit = await github.getOctokit(inputs.githubToken);

@@ -1,4 +1,4 @@
-import { OpenAIApi } from 'openai';
+import { OpenAI } from 'openai';
 import { ISection } from '../services/comment-builder';
 import { ISectionCreator } from '../interfaces/section-creator.interface';
 import { IConfig } from '../interfaces/config.interface';
@@ -6,6 +6,7 @@ import { IInputs } from '../interfaces/inputs.interface';
 import { Injectable } from 'type-chef-di';
 import { PlaceholderResolver } from '../services/placeholder-resolver';
 import { IOctokit } from '../interfaces/octokit.interface';
+import { Utils } from '../services/utils';
 
 @Injectable()
 export class SummariseSectionCreator implements ISectionCreator {
@@ -15,24 +16,17 @@ export class SummariseSectionCreator implements ISectionCreator {
     }
     async createSection(
         inputs: IInputs,
-        openaiClient: OpenAIApi,
+        openaiClient: OpenAI,
         octokit: IOctokit,
         config: Partial<IConfig>,
     ): Promise<ISection[]> {
         const prompt = await this.placeholderResolver.resolve(config?.sections?.summary?.prompt);
 
-        const message = (
-            await openaiClient.createCompletion({
-                model: inputs.model,
-                prompt: prompt,
-                max_tokens: inputs.maxTokens,
-            })
-        ).data.choices[0].text;
         return [
             {
                 prompt: prompt,
                 title: config.sections.summary.title,
-                description: message,
+                description: await Utils.askGpt(openaiClient, prompt, config, inputs),
             },
         ];
     }

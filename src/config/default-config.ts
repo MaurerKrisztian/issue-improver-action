@@ -1,6 +1,7 @@
 import { IConfig } from '../interfaces/config.interface';
 
 export const defaultConfig: IConfig = {
+    systemMessage: "You are an experienced software developer tasked with analyzing GitHub issues. Your role involves offering insightful feedback in response to these requests.",
     sections: {
         custom: [],
         relatedIssues: {

@@ -1,4 +1,4 @@
-import { OpenAIApi } from 'openai';
+import { OpenAI } from 'openai';
 import { Octokit } from '@octokit/core';
 import { Api } from '@octokit/plugin-rest-endpoint-methods/dist-types/types';
 import { PaginateInterface } from '@octokit/plugin-paginate-rest';
@@ -8,6 +8,7 @@ import { IConfig } from '../interfaces/config.interface';
 import { IInputs } from '../interfaces/inputs.interface';
 import { Injectable } from 'type-chef-di';
 import { PlaceholderResolver } from '../services/placeholder-resolver';
+import { Utils } from '../services/utils';
 
 @Injectable()
 export class LabelSectionCreator implements ISectionCreator {
@@ -21,7 +22,7 @@ export class LabelSectionCreator implements ISectionCreator {
     }
     async createSection(
         inputs: IInputs,
-        openaiClient: OpenAIApi,
+        openaiClient: OpenAI,
         octokit: Octokit &
             Api & {
                 paginate: PaginateInterface;
@@ -29,18 +30,12 @@ export class LabelSectionCreator implements ISectionCreator {
         config: Partial<IConfig>,
     ): Promise<ISection[]> {
         const prompt = await this.placeholderResolver.resolve(config?.sections?.labelSuggestion?.prompt);
-        const message = (
-            await openaiClient.createCompletion({
-                model: inputs.model,
-                prompt: prompt,
-                max_tokens: inputs.maxTokens,
-            })
-        ).data.choices[0].text;
+
         return [
             {
                 prompt: prompt,
                 title: config?.sections?.labelSuggestion?.title,
-                description: message,
+                description: await Utils.askGpt(openaiClient, prompt, config, inputs),
             },
         ];
     }

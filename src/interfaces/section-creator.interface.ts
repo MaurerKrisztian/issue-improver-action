@@ -1,4 +1,4 @@
-import { OpenAIApi } from 'openai';
+import { OpenAI } from 'openai';
 import { Octokit } from '@octokit/core';
 import { Api } from '@octokit/plugin-rest-endpoint-methods/dist-types/types';
 import { PaginateInterface } from '@octokit/plugin-paginate-rest';
@@ -11,7 +11,7 @@ export interface ISectionCreator {
 
     createSection(
         inputs: IInputs,
-        openaiClient: OpenAIApi,
+        openaiClient: OpenAI,
         octokit: Octokit & Api & { paginate: PaginateInterface },
         config?: Partial<IConfig>,
     ): Promise<ISection[]>;
