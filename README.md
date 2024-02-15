@@ -6,18 +6,18 @@ GitHub Action that automates issue improvement suggestions using OpenAI.
 
 ## Inputs:
 
-| Input                      | Required | Default                    | Info                                                                   |
-|----------------------------|----------|----------------------------|------------------------------------------------------------------------|
-| openai-key                   | Yes      | N/A                        | OpenAI API key                                                         |
+| Input                      | Required | Default                 | Info                                                                   |
+|----------------------------|----------|-------------------------|------------------------------------------------------------------------|
+| openai-key                   | Yes      | N/A                     | OpenAI API key                                                         |
 | config-file                | No       | issue-improver-config.json | Configuration file                                                     |
-| add-related-issues-section | No       | false                      | Create a related issues section.                                       |
-| add-summary-section        | No       | false                       | Create a summary section.                                              |
-| add-comment-summary-section        | No       |    false                      | Create comment summary                                                 |
-| add-custom-section         | No       |    N/A                        | custom section title/id comma separated string. "*" means include all. |
-| add-label-section          | No       |  false                        | Create label suggesion                                                 |
-| model                      | No       | 'text-davinci-003'         | OpenAI model                                                           |
-| max-tokens                 | No       | 150                        | OpenAI max_tokens (response length)                                    |
-| debug-mode                | No       | false                      | Enable debug mode: Don't create comment                                |
+| add-related-issues-section | No       | false                   | Create a related issues section.                                       |
+| add-summary-section        | No       | false                    | Create a summary section.                                              |
+| add-comment-summary-section        | No       |    false                   | Create comment summary                                                 |
+| add-custom-section         | No       |    N/A                     | custom section title/id comma separated string. "*" means include all. |
+| add-label-section          | No       |  false                     | Create label suggesion                                                 |
+| model                      | No       | gpt-4         | OpenAI model                                                           |
+| max-tokens                 | No       | 150                     | OpenAI max_tokens (response length)                                    |
+| debug-mode                | No       | false                   | Enable debug mode: Don't create comment                                |
 
 
 ## How does It work?
@@ -117,6 +117,7 @@ Additionally, you can add new custom sections to the `sections.custom` array wit
 #### Example config:
 ```json
 {
+  "systemMessage": "You are an experienced software developer tasked with analyzing GitHub issues. Your role involves offering insightful feedback in response to these requests.",
   "sections": {
     "custom": [
       {
